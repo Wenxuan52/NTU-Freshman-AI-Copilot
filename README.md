@@ -130,6 +130,7 @@ Future team members are added individually by the project owner with **Write** p
 - [Contributing workflow](CONTRIBUTING.md)
 - [Team Plan](docs/planning/team-development-plan.md)
 - [Task Development Guide](docs/collaboration/task-development-guide.md)
+- [Module Decision Record](docs/collaboration/module-decision-template.md)
 - [Module Ownership](docs/collaboration/module-ownership.md)
 - [Groq API Key](docs/collaboration/groq-api-key.md)
 - [Clean product repository ADR](docs/decisions/0001-clean-product-repository.md)

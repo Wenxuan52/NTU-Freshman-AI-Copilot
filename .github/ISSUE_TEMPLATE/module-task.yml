@@ -1,5 +1,5 @@
 name: Module task
-description: Plan a scoped core-module or optional exploration task.
+description: Record module decisions, ownership, implementation scope, and acceptance evidence.
 title: "[Module] "
 labels: ["module-task"]
 body:
@@ -57,6 +57,12 @@ body:
         - Large
     validations:
       required: true
+  - type: markdown
+    attributes:
+      value: |
+        ## Decision Gate
+
+        Complete every required field below before implementation. This Issue becomes the specification for the module owner, Coding Agent, reviewer, and System Integration owner. Do not leave product behavior implicit. Follow `docs/collaboration/module-decision-template.md`.
   - type: textarea
     id: scope
     attributes:
@@ -68,6 +74,33 @@ body:
     id: out_of_scope
     attributes:
       label: Out of scope
+    validations:
+      required: true
+  - type: textarea
+    id: representative_questions
+    attributes:
+      label: Representative and unsupported questions
+      description: List at least two questions this delivery must handle and important questions that must fail safely or remain unsupported.
+      placeholder: |
+        Supported:
+        1.
+        2.
+
+        Unsupported or safe failure:
+        1.
+    validations:
+      required: true
+  - type: textarea
+    id: interface_decisions
+    attributes:
+      label: Interface decisions
+      description: Define the Tool or component responsibility, input constraints, output contracts, and expected UI or Agent behavior.
+      placeholder: |
+        Responsibility:
+        Input schema and constraints:
+        Output fields and shared contracts:
+        UI or Agent behavior:
+        Compatibility assumptions:
     validations:
       required: true
   - type: textarea
@@ -87,15 +120,54 @@ body:
   - type: textarea
     id: data_sources
     attributes:
-      label: Data sources
-      description: List traceable official sources, or write N/A.
+      label: Evidence and data decisions
+      description: List official sources or domains, provenance and freshness rules, conflict behavior, coordinate evidence where applicable, and curated files. Write N/A only for tasks without factual data.
+      placeholder: |
+        Allowed official sources/domains:
+        Provenance fields:
+        Freshness rule:
+        Source-conflict behavior:
+        Location evidence:
+        Curated files/update method:
+    validations:
+      required: true
+  - type: textarea
+    id: failure_trust_decisions
+    attributes:
+      label: Failure and trust decisions
+      description: Define deterministic behavior for missing input or evidence, stale/conflicting information, invalid locations, and provider or Tool failure.
+      placeholder: |
+        Missing input:
+        Missing/unreachable evidence:
+        Stale or conflicting information:
+        Invalid location/coordinate:
+        Provider/Tool/integration failure:
+        verified / needs_review / unavailable conditions:
+        User-visible warning or error:
+    validations:
+      required: true
+  - type: textarea
+    id: integration_decisions
+    attributes:
+      label: Integration decisions
+      description: State registry, routing, UI, downstream consumer, dependency, and merge-order needs. Do not ask Integration to infer these from code.
+      placeholder: |
+        Registry/routing/UI work:
+        Upstream dependencies and owners:
+        Downstream consumers:
+        Integration owner:
+        Proposed merge order:
     validations:
       required: true
   - type: textarea
     id: acceptance
     attributes:
       label: Acceptance criteria
-      placeholder: Use a checklist.
+      description: Map every criterion to its planned implementation and test or review evidence.
+      placeholder: |
+        | Acceptance criterion | Planned implementation | Test/review evidence |
+        | --- | --- | --- |
+        |  |  |  |
     validations:
       required: true
   - type: textarea
@@ -112,3 +184,22 @@ body:
       placeholder: None, or list dependencies and owners.
     validations:
       required: true
+  - type: textarea
+    id: unresolved_decisions
+    attributes:
+      label: Unresolved decisions
+      description: For each item, give the question, decision owner, deadline/blocking condition, options, and whether implementation can safely proceed. Write None only when no material decision remains.
+      placeholder: |
+        Question:
+        Decision owner:
+        Deadline or blocker:
+        Options considered:
+        Safe to proceed without it: Yes/No, because...
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        ## Integration handoff
+
+        Before opening the PR, update this Issue with final changed files, decision changes, checks and test results, delivered eval questions, limitations, and remaining registry, Agent, UI, data, or deployment actions.

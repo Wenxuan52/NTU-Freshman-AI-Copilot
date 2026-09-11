@@ -9,13 +9,14 @@ This repository contains the product code for **NTU Freshman AI Copilot**. It is
 ### Team delivery guardrails
 
 - Before working, read this file, the nearest directory-level `AGENTS.md`, and the relevant task Issue. Choose one of the six core directions from the interest table in the [Team Plan](docs/planning/team-development-plan.md); directions are not pre-assigned to names.
+- Do not implement a module task until its Issue satisfies the [Module Decision Record](docs/collaboration/module-decision-template.md). Treat the recorded scope, representative questions, interfaces, evidence rules, failure behavior, trust decisions, shared-file boundary, acceptance criteria, and unresolved decisions as the task specification. Do not silently decide or expand an unresolved product or cross-module question.
 - Keep each feature branch to one minimum complete task. Roadmap, Plan Lite, and the 3D Map remain voluntary exploration only after the core MVP is complete.
 - Treat `src/contracts/*`, `src/tools/registry.ts`, `src/agent/*`, `package.json`, `pnpm-lock.yaml`, `pnpm-workspace.yaml`, `src/app/globals.css`, `.github/workflows/*`, and this file as high-conflict shared files.
 - Open a dedicated Issue before changing a shared Contract. Update every consumer, test, and document in the same Contract PR; never redefine `ToolResult`, `Source`, `Location`, or `Verification` inside a module.
 - Register only Tools that pass their schema, trust-boundary, and representative-question tests. A lockfile change must be explained by a corresponding intentional `package.json` change.
 - When multiple branches touch the same shared file, the System Integration owner coordinates the merge. Integration may adapt shared wiring but must not silently rewrite another member's Tool content.
 - Coding agents must preserve unrelated work, stay within the Issue scope, avoid incidental refactors, and run deterministic tests without real model or network access. Never add secrets, `.env.local`, private data, generated output, remotes, or Git identity.
-- Detailed branch, review, ownership, and quality-check rules live in [CONTRIBUTING.md](CONTRIBUTING.md), the [Task Development Guide](docs/collaboration/task-development-guide.md), and [Module Ownership](docs/collaboration/module-ownership.md).
+- Detailed decision, branch, review, ownership, and quality-check rules live in [CONTRIBUTING.md](CONTRIBUTING.md), the [Task Development Guide](docs/collaboration/task-development-guide.md), the [Module Decision Record](docs/collaboration/module-decision-template.md), and [Module Ownership](docs/collaboration/module-ownership.md).
 
 ## 2. Product Purpose
 

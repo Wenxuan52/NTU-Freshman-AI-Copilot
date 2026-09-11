@@ -4,14 +4,15 @@ This repository is designed for six members to develop independent modules again
 
 ## Standard workflow
 
-1. Synchronize your local `main`, then create a branch from that latest state. Do not develop directly on a shared branch.
-2. Use `feature/<module-name>`, `fix/<problem-name>`, or `docs/<topic>`.
-3. Read the root `AGENTS.md`, the nearest module `AGENTS.md`, and the task Issue before editing.
-4. Implement the smallest complete feature inside the owned module directories.
-5. Reuse the contracts in `src/contracts/`; do not create module-local versions of shared result types.
-6. Add unit tests and at least two representative questions under `evals/` for a Tool task.
-7. Keep automated tests offline and deterministic: no real model calls, network requests, API keys, or live NTU pages.
-8. Run the checks in CI order:
+1. Create a Module Task Issue and complete the [Module Decision Record](docs/collaboration/module-decision-template.md) before implementation. Do not leave a required decision implicit.
+2. Resolve or explicitly mark open every product, interface, evidence, trust, and shared-file decision. The System Integration owner must coordinate any shared-file boundary before parallel implementation begins.
+3. Synchronize your local `main`, then create `feature/<module-name>`, `fix/<problem-name>`, or `docs/<topic>` from that latest state. Do not develop directly on a shared branch.
+4. Read the root `AGENTS.md`, the nearest module `AGENTS.md`, and the complete task Issue before editing. A Coding Agent must use the Issue as its implementation specification and must report any contradiction or missing blocking decision.
+5. Implement the smallest complete feature inside the owned module directories without expanding the recorded scope.
+6. Reuse the contracts in `src/contracts/`; do not create module-local versions of shared result types.
+7. Add unit tests and at least two representative questions under `evals/` for a Tool task. Every acceptance criterion must map to implementation and test evidence.
+8. Keep automated tests offline and deterministic: no real model calls, network requests, API keys, or live NTU pages.
+9. Run the checks in CI order:
 
    ```bash
    pnpm install --frozen-lockfile
@@ -22,14 +23,16 @@ This repository is designed for six members to develop independent modules again
    pnpm lint
    ```
 
-9. Open a PR using the template and complete Scope, Files, Contracts, Sources, Tests, and Limitations.
-10. Merge only through a PR after required CI checks pass. This repository currently requires zero approving reviews, so the owner may merge their own green PR.
-11. Never force-push a shared branch. Coordinate shared-file conflicts with the System Integration owner.
-12. Never commit API keys, tokens, `.env.local`, raw large datasets, private student information, `node_modules`, or build output.
+10. Open a PR using the template and complete Decision Traceability, Scope, Files, Contracts, Sources, Tests, and Limitations.
+11. Merge only through a PR after required CI checks pass. This repository currently requires zero approving reviews, so the owner may merge their own green PR.
+12. Never force-push a shared branch. Coordinate shared-file conflicts with the System Integration owner.
+13. Never commit API keys, tokens, `.env.local`, raw large datasets, private student information, `node_modules`, or build output.
 
 ## Tasks and ownership
 
-Create a Module Task Issue before implementation. Record the primary owner and collaborators there; ownership is task-level, not permanent. Multiple people may split one direction into separate sub-tasks while using the same public contracts. The six core directions and their minimum deliverables are defined in [Module Ownership](docs/collaboration/module-ownership.md).
+Create a Module Task Issue before implementation. Record the primary owner and collaborators there; ownership is task-level, not permanent. Complete all required decision fields using the [Module Decision Record](docs/collaboration/module-decision-template.md). If a decision is genuinely unresolved, name its owner, deadline or blocking condition, and whether implementation may safely proceed without it. Multiple people may split one direction into separate sub-tasks while using the same public contracts. The six core directions and their minimum deliverables are defined in [Module Ownership](docs/collaboration/module-ownership.md).
+
+The decision record is the handoff contract between the module owner, Coding Agent, reviewer, and System Integration owner. Update it when an accepted decision changes; do not let the implementation become the only record of a decision.
 
 Roadmap, Plan Lite, and the 3D Map are optional explorations after the core MVP. They are not mandatory assignments.
 
