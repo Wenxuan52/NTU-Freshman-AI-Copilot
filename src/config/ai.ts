@@ -1,10 +1,12 @@
-import { createOpenAI } from '@ai-sdk/openai';
+import { createGroq } from '@ai-sdk/groq';
 
 import { readServerEnv } from '@/config/env';
 
-export function createConfiguredModel() {
-  const env = readServerEnv();
-  const openai = createOpenAI({ apiKey: env.OPENAI_API_KEY });
+export function createConfiguredModel(
+  environment: Record<string, string | undefined> = process.env,
+) {
+  const env = readServerEnv(environment);
+  const groq = createGroq({ apiKey: env.GROQ_API_KEY });
 
-  return openai(env.OPENAI_MODEL);
+  return groq(env.GROQ_MODEL);
 }
