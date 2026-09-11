@@ -43,6 +43,8 @@ GROQ_MODEL=openai/gpt-oss-20b
 
 Both variables stay server-side. Without either value, a valid Ask request returns a safe `503 SERVER_CONFIGURATION_ERROR`; it is not treated as malformed client input.
 
+Each contributor must create and use their own key rather than sharing the project owner's credentials. Follow the [Groq API Key setup guide](docs/collaboration/groq-api-key.md) for account setup, local configuration, verification, and key rotation.
+
 ## Commands
 
 ```bash
@@ -129,6 +131,7 @@ Future team members are added individually by the project owner with **Write** p
 - [Team Plan](docs/planning/team-development-plan.md)
 - [Task Development Guide](docs/collaboration/task-development-guide.md)
 - [Module Ownership](docs/collaboration/module-ownership.md)
+- [Groq API Key](docs/collaboration/groq-api-key.md)
 - [Clean product repository ADR](docs/decisions/0001-clean-product-repository.md)
 
 ## Upstream attribution
