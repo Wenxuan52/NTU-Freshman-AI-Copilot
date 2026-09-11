@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
 const ServerEnvSchema = z.object({
-  OPENAI_API_KEY: z.string().trim().min(1, 'OPENAI_API_KEY is required.'),
-  OPENAI_MODEL: z.string().trim().min(1, 'OPENAI_MODEL is required.'),
+  GROQ_API_KEY: z.string().trim().min(1, 'GROQ_API_KEY is required.'),
+  GROQ_MODEL: z.string().trim().min(1, 'GROQ_MODEL is required.'),
 });
 
 export type ServerEnv = z.infer<typeof ServerEnvSchema>;

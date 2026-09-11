@@ -109,8 +109,8 @@ Model and provider settings must be centralized under `src/config/`. Do not hard
 Expected local environment variables include:
 
 ```text
-OPENAI_API_KEY=
-OPENAI_MODEL=
+GROQ_API_KEY=
+GROQ_MODEL=openai/gpt-oss-20b
 ```
 
 If a different provider is adopted, update `.env.example`, configuration validation, README, and tests together. Never commit `.env`, `.env.local`, API keys, tokens, passwords, or private credentials.

@@ -30,15 +30,15 @@ Open `http://localhost:3000`. The page and static Mock preview work without cred
 
 The visible Mock preview and deterministic unit tests use synthetic local data and make no network or model call. They are suitable for development and CI.
 
-Live chat uses the configured OpenAI provider. Copy the template locally and supply your own values; never commit this file or share its contents:
+Live chat uses Groq through the official AI SDK provider package. The example selects `openai/gpt-oss-20b`, which is available on Groq's Free Plan subject to Groq's current rate limits. Copy the template locally and supply a newly created key; never commit this file, paste the key into chat, or share its contents:
 
 ```bash
 cp .env.example .env.local
 ```
 
 ```dotenv
-OPENAI_API_KEY=
-OPENAI_MODEL=
+GROQ_API_KEY=
+GROQ_MODEL=openai/gpt-oss-20b
 ```
 
 Both variables stay server-side. Without either value, a valid Ask request returns a safe `503 SERVER_CONFIGURATION_ERROR`; it is not treated as malformed client input.
@@ -120,8 +120,8 @@ Future team members are added individually by the project owner with **Write** p
 - No real NTU retrieval, RAG, authentication, roadmap, Plan Lite, or 3D Map exists.
 - The Context Panel map is a placeholder and Mock locations are intentionally empty; the Leaflet 2D map remains Food / Location work.
 - Loading and error behavior exist, but broader cancel and partial-result UX remains an Integration deliverable.
-- Live Ask requests require a selected model provider and local API key.
-- The model provider, `OPENAI_MODEL`, credential distribution, primary target-user definition, and three final Demo paths remain team decisions; this repository initialization does not decide them.
+- Live Ask requests use Groq and require a valid local `GROQ_API_KEY`; Free Plan limits and model availability are controlled by Groq.
+- Credential distribution, the primary target-user definition, and three final Demo paths remain team decisions.
 
 ## Project guides
 
