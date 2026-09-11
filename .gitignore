@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Next.js outputs and caches
+.next/
+out/
+build/
+next-env.d.ts
+.vercel/
+
+# Test output
+coverage/
+
+# Local environment files (the example is intentionally tracked)
+.env
+.env.*
+!.env.example
+
+# Logs and package-manager caches
+*.log
+.pnpm-store/
+
+# Editor and operating-system files
+.DS_Store
+*.pem
+.idea/
+.vscode/
+
+# TypeScript cache
+*.tsbuildinfo

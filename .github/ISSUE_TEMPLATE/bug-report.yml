@@ -1,0 +1,59 @@
+name: Bug report
+description: Report a reproducible product, contract, test, or build defect.
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What happened and what should have happened?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      placeholder: Include the command or user path and minimal safe input.
+    validations:
+      required: true
+  - type: input
+    id: branch_commit
+    attributes:
+      label: Branch or commit
+      placeholder: Branch name or commit SHA; do not include credentials.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: OS, Node.js version, pnpm version, browser if relevant
+    validations:
+      required: true
+  - type: textarea
+    id: affected_files
+    attributes:
+      label: Affected module and files
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Safe evidence
+      description: Paste sanitized logs, screenshots, or failing test names. Remove secrets and private data.
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact and safety risk
+    validations:
+      required: true
+  - type: textarea
+    id: workaround
+    attributes:
+      label: Known workaround
+      placeholder: None, or describe a safe temporary workaround.
+    validations:
+      required: true

@@ -1,0 +1,12 @@
+[
+  {
+    "question": "What should I check before orientation?",
+    "expected_tool": "mockNtuInfo",
+    "expected_verification": "needs_review"
+  },
+  {
+    "question": "Where can a new student find official NTU information?",
+    "expected_tool": "mockNtuInfo",
+    "expected_verification": "needs_review"
+  }
+]
