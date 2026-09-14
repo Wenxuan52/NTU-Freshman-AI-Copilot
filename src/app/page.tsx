@@ -17,6 +17,8 @@ import { SourceList } from '@/components/sources/source-list';
 import { PlanLiteResultSchema } from '@/contracts/plan-lite';
 import { ToolResultSchema, type ToolResult } from '@/contracts/tool-result';
 
+type UtilityPanel = 'plan' | 'context';
+
 const DEMO_RESULT: ToolResult = ToolResultSchema.parse({
   content:
     'Offline map preview: these curated NTU food locations demonstrate the structured Location contract. Venue details and opening hours require manual confirmation before acting.',
@@ -173,8 +175,14 @@ export default function Home() {
   const [selectedLocationId, setSelectedLocationId] = useState<string | null>(
     null,
   );
+  const [activePanel, setActivePanel] = useState<UtilityPanel | null>(null);
   const latestResult = useMemo(() => findLatestToolResult(messages), [messages]);
   const contextResult = latestResult ?? (messages.length === 0 ? DEMO_RESULT : null);
+
+  function selectLocation(locationId: string) {
+    setSelectedLocationId(locationId);
+    setActivePanel('context');
+  }
 
   useEffect(() => {
     if (
@@ -187,8 +195,23 @@ export default function Home() {
     }
   }, [contextResult, selectedLocationId]);
 
+  useEffect(() => {
+    if (latestResult) setActivePanel('context');
+  }, [latestResult]);
+
+  useEffect(() => {
+    if (!activePanel) return;
+
+    function closeOnEscape(event: KeyboardEvent) {
+      if (event.key === 'Escape') setActivePanel(null);
+    }
+
+    window.addEventListener('keydown', closeOnEscape);
+    return () => window.removeEventListener('keydown', closeOnEscape);
+  }, [activePanel]);
+
   return (
-    <main className="app-shell">
+    <main className={`app-shell${activePanel ? ' drawer-open' : ''}`}>
       <header className="topbar">
         <div className="brand-lockup">
           <div className="brand-mark">
@@ -244,13 +267,6 @@ export default function Home() {
               </div>
             </div>
 
-            <PlanLiteStarter
-              disabled={status === 'submitted' || status === 'streaming'}
-              onGenerate={profile =>
-                sendMessage({ text: formatProfileRequest(profile) })
-              }
-            />
-
             {messages.length === 0 ? (
               <div className="demo-thread">
                 <div className="thread-divider">
@@ -297,7 +313,7 @@ export default function Home() {
                       </span>
                       <MessageParts
                         message={message}
-                        onSelectLocation={setSelectedLocationId}
+                        onSelectLocation={selectLocation}
                       />
                     </article>
                   </div>
@@ -319,12 +335,109 @@ export default function Home() {
           />
         </section>
 
-        <ContextPanel
-          result={contextResult}
-          selectedLocationId={selectedLocationId}
-          onSelectLocation={setSelectedLocationId}
-        />
+        <nav className="view-switcher" aria-label="Workspace panels">
+          <button
+            className={activePanel === 'plan' ? 'active' : ''}
+            type="button"
+            aria-pressed={activePanel === 'plan'}
+            onClick={() => setActivePanel('plan')}
+          >
+            <span aria-hidden="true">✓</span>
+            <strong>Plan</strong>
+          </button>
+          <button
+            className={activePanel === 'context' ? 'active' : ''}
+            type="button"
+            aria-pressed={activePanel === 'context'}
+            onClick={() => setActivePanel('context')}
+          >
+            <span aria-hidden="true">⌖</span>
+            <strong>Evidence &amp; Map</strong>
+            {contextResult ? (
+              <i aria-label={`${contextResult.sources.length} sources`}>
+                {contextResult.sources.length}
+              </i>
+            ) : null}
+          </button>
+        </nav>
       </div>
+
+      <button
+        className={`drawer-backdrop${activePanel ? ' visible' : ''}`}
+        type="button"
+        aria-label="Close side panel"
+        tabIndex={activePanel ? 0 : -1}
+        onClick={() => setActivePanel(null)}
+      />
+
+      <aside
+        className={`utility-drawer${activePanel ? ' open' : ''}`}
+        aria-label="Plan and context drawer"
+        aria-hidden={!activePanel}
+      >
+        <header className="drawer-header">
+          <div className="drawer-tabs" role="tablist" aria-label="Drawer views">
+            <button
+              className={activePanel === 'plan' ? 'active' : ''}
+              type="button"
+              role="tab"
+              aria-selected={activePanel === 'plan'}
+              onClick={() => setActivePanel('plan')}
+            >
+              Plan Lite
+            </button>
+            <button
+              className={activePanel === 'context' ? 'active' : ''}
+              type="button"
+              role="tab"
+              aria-selected={activePanel === 'context'}
+              onClick={() => setActivePanel('context')}
+            >
+              Evidence &amp; Map
+            </button>
+          </div>
+          <button
+            className="drawer-close"
+            type="button"
+            aria-label="Close side panel"
+            onClick={() => setActivePanel(null)}
+          >
+            <span aria-hidden="true">×</span>
+          </button>
+        </header>
+
+        <div className="drawer-stage">
+          {activePanel === 'plan' ? (
+            <section className="drawer-view drawer-plan" role="tabpanel">
+              <div className="drawer-intro">
+                <span className="eyebrow">Personalize locally</span>
+                <h2>Shape your first month.</h2>
+                <p>
+                  Choose only what matters now. Your checklist will return to
+                  the chat, with sources and map links attached.
+                </p>
+              </div>
+              <PlanLiteStarter
+                disabled={status === 'submitted' || status === 'streaming'}
+                onGenerate={profile => {
+                  setActivePanel(null);
+                  return sendMessage({ text: formatProfileRequest(profile) });
+                }}
+              />
+            </section>
+          ) : null}
+
+          {activePanel === 'context' ? (
+            <section className="drawer-view drawer-context" role="tabpanel">
+              <ContextPanel
+                result={contextResult}
+                selectedLocationId={selectedLocationId}
+                onSelectLocation={selectLocation}
+              />
+            </section>
+          ) : null}
+        </div>
+      </aside>
     </main>
   );
 }
