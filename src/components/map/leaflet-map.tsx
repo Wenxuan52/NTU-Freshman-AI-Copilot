@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 
 import type { Location } from '@/contracts/location';
@@ -18,12 +18,47 @@ export function LeafletMap({
   selectedLocationId,
   onSelectLocation,
 }: LeafletMapProps) {
+  const shellRef = useRef<HTMLDivElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<L.Map | null>(null);
   const markerLayerRef = useRef<L.LayerGroup | null>(null);
   const onSelectLocationRef = useRef(onSelectLocation);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   onSelectLocationRef.current = onSelectLocation;
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      const fullscreen = document.fullscreenElement === shellRef.current;
+      setIsFullscreen(fullscreen);
+
+      if (fullscreen) {
+        window.setTimeout(() => mapRef.current?.invalidateSize(), 0);
+      }
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () =>
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
+
+  async function toggleFullscreen() {
+    const shell = shellRef.current;
+    if (!shell) return;
+
+    try {
+      if (document.fullscreenElement === shell) {
+        await document.exitFullscreen();
+      } else if (document.fullscreenElement) {
+        await document.exitFullscreen();
+        await shell.requestFullscreen();
+      } else {
+        await shell.requestFullscreen();
+      }
+    } catch {
+      setIsFullscreen(false);
+    }
+  }
 
   useEffect(() => {
     const container = containerRef.current;
@@ -65,24 +100,31 @@ export function LeafletMap({
 
     for (const location of locations) {
       const selected = location.id === selectedLocationId;
+      const needsReview = location.coordinate_status === 'needs_review';
       const marker = L.circleMarker(
         [location.latitude, location.longitude],
         {
           color: selected ? '#071a2d' : '#0b6faf',
-          fillColor: selected ? '#35c2d0' : '#0b6faf',
+          fillColor: selected
+            ? '#35c2d0'
+            : needsReview
+              ? '#f0b84f'
+              : '#0b6faf',
           fillOpacity: 0.95,
           radius: selected ? 10 : 8,
           weight: 3,
         },
       );
 
+      const popup = document.createElement('div');
+      const name = document.createElement('strong');
+      name.textContent = location.name;
+      popup.append(name, document.createElement('br'));
+      popup.append(`${location.category} · ${location.address}`);
+
       marker
-        .bindPopup(
-          `<strong>${location.name}</strong><br />${location.category}<br />${location.address}`,
-        )
-        .on('click', () => {
-          onSelectLocationRef.current(location.id);
-        })
+        .bindPopup(popup)
+        .on('click', () => onSelectLocationRef.current(location.id))
         .addTo(markerLayer);
     }
 
@@ -115,7 +157,15 @@ export function LeafletMap({
   }, [locations, selectedLocationId]);
 
   return (
-    <div className="leaflet-map-shell">
+    <div ref={shellRef} className="leaflet-map-shell">
+      <button
+        className="map-fullscreen-button"
+        type="button"
+        onClick={toggleFullscreen}
+        aria-label={isFullscreen ? 'Exit full screen map' : 'Open full screen map'}
+      >
+        {isFullscreen ? 'Exit full screen' : 'Full screen'}
+      </button>
       <div
         ref={containerRef}
         className="leaflet-map"

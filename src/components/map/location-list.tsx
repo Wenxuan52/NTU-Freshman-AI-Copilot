@@ -30,7 +30,12 @@ export function LocationList({
             >
               <span className="location-card-heading">
                 <strong>{location.name}</strong>
-                <span>{location.category}</span>
+                <span>
+                  {location.category}
+                  {location.source_id === 'manual-user-entry'
+                    ? ' · manual · needs review'
+                    : ''}
+                </span>
               </span>
               <span>{location.description}</span>
               <span>{location.address}</span>

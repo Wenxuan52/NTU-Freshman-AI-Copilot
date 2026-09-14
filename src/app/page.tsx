@@ -8,7 +8,6 @@ import curatedLocationData from '../../data/curated/locations/ntu-food-locations
 import type { MainAgentUIMessage } from '@/agent/main-agent';
 import { ChatInput } from '@/components/chat/chat-input';
 import { ContextPanel } from '@/components/context-panel/context-panel';
-import { LocationList } from '@/components/map/location-list';
 import { SourceList } from '@/components/sources/source-list';
 import { ToolResultSchema, type ToolResult } from '@/contracts/tool-result';
 
@@ -48,15 +47,7 @@ function findLatestToolResult(messages: MainAgentUIMessage[]): ToolResult | null
   return null;
 }
 
-function ToolResultCard({
-  result,
-  onSelectLocation,
-  selectedLocationId,
-}: {
-  result: ToolResult;
-  onSelectLocation: (locationId: string) => void;
-  selectedLocationId: string | null;
-}) {
+function ToolResultCard({ result }: { result: ToolResult }) {
   return (
     <div className="tool-result">
       <div className="tool-result-heading">
@@ -68,11 +59,9 @@ function ToolResultCard({
       <p>{result.content}</p>
       <SourceList sources={result.sources} />
       {result.locations.length > 0 ? (
-        <LocationList
-          locations={result.locations}
-          selectedLocationId={selectedLocationId}
-          onSelectLocation={onSelectLocation}
-        />
+        <p className="location-summary">
+          {result.locations.length} locations are listed in the map panel.
+        </p>
       ) : null}
       {result.verification.warnings.map(warning => (
         <p className="warning-copy" key={warning}>
@@ -83,15 +72,7 @@ function ToolResultCard({
   );
 }
 
-function MessageParts({
-  message,
-  onSelectLocation,
-  selectedLocationId,
-}: {
-  message: MainAgentUIMessage;
-  onSelectLocation: (locationId: string) => void;
-  selectedLocationId: string | null;
-}) {
+function MessageParts({ message }: { message: MainAgentUIMessage }) {
   return message.parts.map((part, index) => {
     if (part.type === 'text') {
       return <p key={index}>{part.text}</p>;
@@ -125,8 +106,6 @@ function MessageParts({
           <ToolResultCard
             key={index}
             result={result.data}
-            selectedLocationId={selectedLocationId}
-            onSelectLocation={onSelectLocation}
           />
         ) : (
           <p className="error-copy" key={index}>
@@ -238,8 +217,6 @@ export default function Home() {
                     <p>I’ll use the Food / Location Tool and show its evidence status.</p>
                     <ToolResultCard
                       result={DEMO_RESULT}
-                      selectedLocationId={selectedLocationId}
-                      onSelectLocation={setSelectedLocationId}
                     />
                   </article>
                 </div>
@@ -265,8 +242,6 @@ export default function Home() {
                       </span>
                       <MessageParts
                         message={message}
-                        selectedLocationId={selectedLocationId}
-                        onSelectLocation={setSelectedLocationId}
                       />
                     </article>
                   </div>
