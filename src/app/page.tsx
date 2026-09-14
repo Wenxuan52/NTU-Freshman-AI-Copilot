@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useMemo, useState } from 'react';
 import { useChat } from '@ai-sdk/react';
 
@@ -162,50 +163,115 @@ export default function Home() {
   return (
     <main className="app-shell">
       <header className="topbar">
-        <div className="brand-mark" aria-hidden="true">N</div>
-        <div>
-          <span className="eyebrow">Ask · verify · orient</span>
-          <h1>NTU Freshman AI Copilot</h1>
+        <div className="brand-lockup">
+          <div className="brand-mark">
+            <Image
+              src="/branding/ntu-logo.png"
+              alt="Nanyang Technological University, Singapore"
+              width={3006}
+              height={1079}
+              sizes="(max-width: 580px) 112px, 148px"
+              priority
+            />
+          </div>
+          <div className="brand-copy">
+            <span className="topbar-kicker">NTU · Singapore</span>
+            <h1>Freshman AI Copilot</h1>
+            <p>Campus guidance, grounded in visible sources.</p>
+          </div>
         </div>
-        <span className="mock-badge">Curated preview</span>
+
+        <div className="topbar-status">
+          <span className="campus-status">
+            <i aria-hidden="true" />
+            Campus companion
+          </span>
+          <span className="mock-badge">Curated preview</span>
+        </div>
+
+        <div className="campus-motif" aria-hidden="true">
+          <span className="motif-orbit motif-orbit-one" />
+          <span className="motif-orbit motif-orbit-two" />
+          <span className="motif-building motif-building-one" />
+          <span className="motif-building motif-building-two" />
+          <span className="motif-building motif-building-three" />
+        </div>
       </header>
 
       <div className="workspace">
         <section className="chat-panel" aria-label="Chat">
           <div className="chat-scroll" aria-live="polite">
+            <div className="chat-intro">
+              <div>
+                <span className="eyebrow">Freshman launchpad</span>
+                <h2>Find your footing at NTU.</h2>
+                <p>
+                  Ask one clear question. The Copilot will show the answer,
+                  its source, and how confidently it was verified.
+                </p>
+              </div>
+              <div className="topic-row" aria-label="Example topics">
+                <span>Orientation</span>
+                <span>Campus life</span>
+                <span>Places &amp; food</span>
+              </div>
+            </div>
+
             {messages.length === 0 ? (
               <div className="demo-thread">
-                <span className="eyebrow">Vertical-slice preview</span>
-                <article className="message user-message">
-                  <span className="message-label">You</span>
-                  <p>What should I check before orientation?</p>
-                </article>
-                <article className="message assistant-message">
-                  <span className="message-label">Copilot</span>
-                  <p>I’ll use the Mock NTU Info Tool and show its evidence status.</p>
-                  <ToolResultCard
-                    result={DEMO_RESULT}
-                    selectedLocationId={selectedLocationId}
-                    onSelectLocation={setSelectedLocationId}
-                  />
-                </article>
+                <div className="thread-divider">
+                  <span>Example conversation</span>
+                </div>
+                <div className="message-row user-row">
+                  <article className="message user-message">
+                    <span className="message-label">You</span>
+                    <p>Where can I eat near North Spine?</p>
+                  </article>
+                </div>
+                <div className="message-row assistant-row">
+                  <div className="mascot-avatar" role="img" aria-label="Lion Copilot">
+                    <span aria-hidden="true">🦁</span>
+                    <i aria-hidden="true" />
+                  </div>
+                  <article className="message assistant-message">
+                    <span className="message-label">Copilot</span>
+                    <p>I’ll use the Food / Location Tool and show its evidence status.</p>
+                    <ToolResultCard
+                      result={DEMO_RESULT}
+                      selectedLocationId={selectedLocationId}
+                      onSelectLocation={setSelectedLocationId}
+                    />
+                  </article>
+                </div>
               </div>
             ) : (
-              messages.map(message => (
-                <article
-                  className={`message ${message.role}-message`}
-                  key={message.id}
-                >
-                  <span className="message-label">
-                    {message.role === 'user' ? 'You' : 'Copilot'}
-                  </span>
-                  <MessageParts
-                    message={message}
-                    selectedLocationId={selectedLocationId}
-                    onSelectLocation={setSelectedLocationId}
-                  />
-                </article>
-              ))
+              messages.map(message => {
+                const isAssistant = message.role === 'assistant';
+
+                return (
+                  <div
+                    className={`message-row ${message.role}-row`}
+                    key={message.id}
+                  >
+                    {isAssistant ? (
+                      <div className="mascot-avatar" role="img" aria-label="Lion Copilot">
+                        <span aria-hidden="true">🦁</span>
+                        <i aria-hidden="true" />
+                      </div>
+                    ) : null}
+                    <article className={`message ${message.role}-message`}>
+                      <span className="message-label">
+                        {message.role === 'user' ? 'You' : 'Copilot'}
+                      </span>
+                      <MessageParts
+                        message={message}
+                        selectedLocationId={selectedLocationId}
+                        onSelectLocation={setSelectedLocationId}
+                      />
+                    </article>
+                  </div>
+                );
+              })
             )}
 
             {error ? (

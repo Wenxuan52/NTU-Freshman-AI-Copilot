@@ -22,14 +22,17 @@ export function ChatInput({ status, onSubmit, onStop }: ChatInputProps) {
 
   return (
     <form className="chat-composer" onSubmit={handleSubmit}>
-      <label htmlFor="chat-query">Ask about starting at NTU</label>
+      <div className="composer-heading">
+        <label htmlFor="chat-query">Ask about starting at NTU</label>
+        <span>Source-aware answers</span>
+      </div>
       <div className="composer-row">
         <input
           id="chat-query"
           value={text}
           maxLength={300}
           onChange={event => setText(event.target.value)}
-          placeholder="What should I check before orientation?"
+          placeholder="Ask about orientation, campus services, or places…"
           disabled={isRunning}
         />
         {isRunning ? (
@@ -38,7 +41,8 @@ export function ChatInput({ status, onSubmit, onStop }: ChatInputProps) {
           </button>
         ) : (
           <button type="submit" disabled={!text.trim()}>
-            Ask
+            <span>Ask</span>
+            <span aria-hidden="true">↗</span>
           </button>
         )}
       </div>
