@@ -5,10 +5,10 @@ import { useMemo, useState } from 'react';
 
 import { ManualLocationForm } from '@/components/map/manual-location-form';
 import type { Location } from '@/contracts/location';
+import type { ToolResult } from '@/contracts/tool-result';
 import { LocationList } from '@/components/map/location-list';
 import { filterLocations } from '@/components/map/location-search';
 import { SourceList } from '@/components/sources/source-list';
-import type { ToolResult } from '@/contracts/tool-result';
 
 const LeafletMap = dynamic(
   () =>
@@ -56,8 +56,11 @@ export function ContextPanel({
   return (
     <aside className="context-panel" aria-label="Answer context">
       <div className="panel-heading">
-        <span className="eyebrow">Context panel</span>
-        <h2>Sources &amp; map</h2>
+        <div>
+          <span className="eyebrow">Campus context</span>
+          <h2>Evidence &amp; place</h2>
+        </div>
+        <span className="panel-index" aria-hidden="true">01</span>
       </div>
 
       <section aria-labelledby="sources-heading">

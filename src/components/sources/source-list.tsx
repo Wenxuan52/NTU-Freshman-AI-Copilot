@@ -14,7 +14,8 @@ export function SourceList({ sources }: { sources: Source[] }) {
               {source.official ? 'Official source' : 'External source'}
             </span>
             <a href={source.url} target="_blank" rel="noreferrer">
-              {source.title}
+              <span>{source.title}</span>
+              <span className="source-arrow" aria-hidden="true">↗</span>
             </a>
           </div>
           <p>{source.publisher}</p>
