@@ -1,0 +1,37 @@
+[
+  {
+    "question": "I am an international undergraduate living on campus and arriving next week. Create my first-month Plan Lite with food and study interests.",
+    "expected_tool": "planLite",
+    "expected_profile": {
+      "student_level": "undergraduate",
+      "residency": "international",
+      "housing": "on_campus",
+      "arrival_stage": "before_arrival",
+      "interests": ["food", "study"]
+    },
+    "expected_item_ids": [
+      "review-undergraduate-guide",
+      "review-students-pass",
+      "review-undergraduate-housing",
+      "explore-campus-food",
+      "explore-library"
+    ],
+    "expected_verification": "needs_review"
+  },
+  {
+    "question": "I am a local postgraduate living off campus and already in my first week. What should I do next?",
+    "expected_tool": "planLite",
+    "expected_profile": {
+      "student_level": "postgraduate",
+      "residency": "local",
+      "housing": "off_campus",
+      "arrival_stage": "first_week",
+      "interests": []
+    },
+    "expected_item_ids": [
+      "find-student-support",
+      "save-wellbeing-support"
+    ],
+    "expected_verification": "needs_review"
+  }
+]

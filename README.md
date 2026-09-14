@@ -1,10 +1,11 @@
 # NTU Freshman AI Copilot
 
-NTU Freshman AI Copilot is a source-aware assistant for new NTU students. This repository currently provides a safe Mock vertical slice and a basic curated Food / Location flow:
+NTU Freshman AI Copilot is a source-aware assistant for new NTU students. The current prototype provides a safe Mock vertical slice, a basic curated Food / Location flow, and an optional Plan Lite flow:
 
 ```text
 Chat UI → Next.js API Route → Main ToolLoopAgent → Food / Location Tool
         → deterministic Trust Validator → Answer + Sources + Locations + Map
+                                      ↘ Plan Lite Tool → Checklist + Map links
 ```
 
 It is an engineering scaffold, not yet an authoritative NTU information service. Synthetic Mock content is always labelled `needs_review`.
@@ -24,7 +25,7 @@ pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-Open `http://localhost:3000`. The page and static Mock preview work without credentials. Sending a live Ask request enters the Main Agent path and therefore needs server model configuration.
+Open `http://localhost:3000`. The page and static Mock preview work without credentials. The Plan Lite profile builder and live Ask requests enter the Main Agent path and therefore need server model configuration.
 
 If your shell does not already use Node.js 22, switch to Node.js `22.13.0` or newer before running the commands above. The repository declares the required Node and pnpm versions in `package.json`.
 
@@ -123,7 +124,8 @@ Future team members are added individually by the project owner with **Write** p
 ## Current limitations
 
 - The onboarding flow remains synthetic; the Food / Location Tool is currently limited to a small curated dataset and does not perform live retrieval.
-- No real NTU retrieval, RAG, authentication, roadmap, Plan Lite, or 3D Map exists.
+- No real NTU retrieval, RAG, authentication, full Roadmap Engine, or 3D Map exists.
+- Plan Lite uses deterministic templates and browser-local, non-sensitive profile choices; it is not an official schedule and exact dates must be checked at the linked source.
 - The Food / Location Tool now provides a small curated dataset and a Leaflet + OpenStreetMap preview; venue details and opening hours still require manual verification.
 - Loading and error behavior exist, but broader cancel and partial-result UX remains an Integration deliverable.
 - Live Ask requests use Groq and require a valid local `GROQ_API_KEY`; Free Plan limits and model availability are controlled by Groq.
