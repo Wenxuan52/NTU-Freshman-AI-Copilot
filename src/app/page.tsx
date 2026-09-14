@@ -169,6 +169,25 @@ function MessageParts({
   });
 }
 
+function LionAvatar({
+  animated = false,
+  featured = false,
+}: {
+  animated?: boolean;
+  featured?: boolean;
+}) {
+  return (
+    <div
+      className={`mascot-avatar${featured ? ' mascot-avatar-featured' : ''}${animated ? ' mascot-avatar-animated' : ''}`}
+      role="img"
+      aria-label="Lion Copilot"
+    >
+      <span aria-hidden="true">🦁</span>
+      <i aria-hidden="true" />
+    </div>
+  );
+}
+
 export default function Home() {
   const { messages, sendMessage, status, stop, error } =
     useChat<MainAgentUIMessage>();
@@ -251,49 +270,16 @@ export default function Home() {
       <div className="workspace">
         <section className="chat-panel" aria-label="Chat">
           <div className="chat-scroll" aria-live="polite">
-            <div className="chat-intro">
-              <div>
-                <span className="eyebrow">Freshman launchpad</span>
-                <h2>Find your footing at NTU.</h2>
-                <p>
-                  Ask one clear question. The Copilot will show the answer,
-                  its source, and how confidently it was verified.
-                </p>
-              </div>
-              <div className="topic-row" aria-label="Example topics">
-                <span>Orientation</span>
-                <span>Campus life</span>
-                <span>Places &amp; food</span>
-              </div>
-            </div>
-
             {messages.length === 0 ? (
-              <div className="demo-thread">
-                <div className="thread-divider">
-                  <span>Example conversation</span>
+              <div className="chat-empty-state">
+                <div className="empty-mascot-stage">
+                  <LionAvatar featured />
+                  <span className="empty-mascot-shadow" aria-hidden="true" />
                 </div>
-                <div className="message-row user-row">
-                  <article className="message user-message">
-                    <span className="message-label">You</span>
-                    <p>Where can I eat near North Spine?</p>
-                  </article>
-                </div>
-                <div className="message-row assistant-row">
-                  <div className="mascot-avatar" role="img" aria-label="Lion Copilot">
-                    <span aria-hidden="true">🦁</span>
-                    <i aria-hidden="true" />
-                  </div>
-                  <article className="message assistant-message">
-                    <span className="message-label">Copilot</span>
-                    <p>I’ll use the Food / Location Tool and show its evidence status.</p>
-                    <ToolResultCard
-                      result={DEMO_RESULT}
-                    />
-                  </article>
-                </div>
+                <p>What can I help you find at NTU?</p>
               </div>
             ) : (
-              messages.map(message => {
+              messages.map((message, messageIndex) => {
                 const isAssistant = message.role === 'assistant';
 
                 return (
@@ -302,10 +288,7 @@ export default function Home() {
                     key={message.id}
                   >
                     {isAssistant ? (
-                      <div className="mascot-avatar" role="img" aria-label="Lion Copilot">
-                        <span aria-hidden="true">🦁</span>
-                        <i aria-hidden="true" />
-                      </div>
+                      <LionAvatar animated={messageIndex === messages.length - 1} />
                     ) : null}
                     <article className={`message ${message.role}-message`}>
                       <span className="message-label">
