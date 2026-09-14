@@ -344,21 +344,8 @@ a {
   font-size: 0.88rem;
 }
 
-.map-grid {
-  position: relative;
-  height: 8rem;
-  margin-top: 0.75rem;
-  overflow: hidden;
-  border: 1px solid #c7d7df;
-  border-radius: 0.8rem;
-  background-color: #e8f1f3;
-  background-image:
-    linear-gradient(#cadde2 1px, transparent 1px),
-    linear-gradient(90deg, #cadde2 1px, transparent 1px);
-  background-size: 1.5rem 1.5rem;
-}
-
 .leaflet-map-shell {
+  position: relative;
   margin-top: 0.75rem;
   overflow: hidden;
   border: 1px solid #c7d7df;
@@ -366,13 +353,49 @@ a {
   background: #e8f1f3;
 }
 
+.leaflet-map-shell:fullscreen {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  flex-direction: column;
+  border: 0;
+  border-radius: 0;
+}
+
 .leaflet-map {
   height: 18rem;
   width: 100%;
 }
 
+.leaflet-map-shell:fullscreen .leaflet-map {
+  min-height: 0;
+  height: auto;
+  flex: 1;
+}
+
 .leaflet-map .leaflet-control-attribution {
   font-size: 0.65rem;
+}
+
+.map-fullscreen-button {
+  position: absolute;
+  z-index: 1000;
+  top: 0.65rem;
+  right: 0.65rem;
+  padding: 0.45rem 0.65rem;
+  border: 1px solid rgba(7, 26, 45, 0.2);
+  border-radius: 0.45rem;
+  color: var(--navy-900);
+  background: rgba(255, 255, 255, 0.94);
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.map-fullscreen-button:hover,
+.map-fullscreen-button:focus-visible {
+  color: white;
+  background: var(--navy-900);
 }
 
 .map-attribution-note {
@@ -386,6 +409,51 @@ a {
   margin: 0.75rem 0 0;
   padding: 0;
   list-style: none;
+}
+
+.location-search {
+  display: flex;
+  gap: 0.45rem;
+  margin-top: 0.75rem;
+}
+
+.location-search input {
+  min-width: 0;
+  flex: 1;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid #b8cad6;
+  border-radius: 0.5rem;
+  color: var(--navy-950);
+  background: white;
+  font-size: 0.86rem;
+}
+
+.location-search input:focus {
+  outline: 3px solid rgba(53, 194, 208, 0.3);
+  border-color: var(--blue-600);
+}
+
+.location-search button {
+  padding: 0.5rem 0.65rem;
+  border: 0;
+  border-radius: 0.5rem;
+  color: var(--navy-900);
+  background: #dfeaf0;
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .location-card {
@@ -420,28 +488,113 @@ a {
   font-size: 0.82rem;
 }
 
-.map-popup-button {
-  display: block;
-  margin-top: 0.5rem;
-  padding: 0.35rem 0.5rem;
+.location-summary {
+  padding: 0.7rem 0.8rem;
+  border-radius: 0.55rem;
+  color: var(--muted);
+  background: #f4f8fa;
+  font-size: 0.86rem;
+}
+
+.add-location-button,
+.primary-button,
+.text-button {
   border: 0;
-  border-radius: 0.4rem;
-  color: white;
-  background: var(--blue-600);
+  border-radius: 0.45rem;
+  font-weight: 800;
   cursor: pointer;
 }
 
-.map-pin {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 1rem;
-  height: 1rem;
-  border: 0.25rem solid white;
-  border-radius: 50% 50% 50% 0;
+.add-location-button,
+.primary-button {
+  padding: 0.35rem 0.5rem;
+}
+
+.add-location-button {
+  color: var(--navy-900);
+  background: #dfeaf0;
+}
+
+.primary-button {
+  width: 100%;
+  padding: 0.65rem 0.8rem;
+  color: white;
   background: var(--blue-600);
-  box-shadow: 0 4px 10px rgba(7, 26, 45, 0.22);
-  transform: translate(-50%, -65%) rotate(-45deg);
+}
+
+.text-button {
+  padding: 0.25rem 0.4rem;
+  color: var(--blue-600);
+  background: transparent;
+}
+
+.manual-location-form {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+  padding: 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: white;
+}
+
+.form-heading,
+.coordinate-fields {
+  display: flex;
+  gap: 0.65rem;
+}
+
+.form-heading {
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.form-heading h4 {
+  margin: 0;
+  font-size: 0.98rem;
+}
+
+.manual-location-form label {
+  display: grid;
+  gap: 0.25rem;
+  color: var(--navy-800);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.manual-location-form input,
+.manual-location-form textarea {
+  width: 100%;
+  padding: 0.55rem 0.6rem;
+  border: 1px solid #b8cad6;
+  border-radius: 0.45rem;
+  color: var(--navy-950);
+  background: white;
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+.manual-location-form textarea {
+  resize: vertical;
+}
+
+.coordinate-fields > label {
+  min-width: 0;
+  flex: 1;
+}
+
+.form-note,
+.form-error {
+  margin: 0;
+  font-size: 0.8rem;
+}
+
+.form-note {
+  color: var(--muted);
+}
+
+.form-error {
+  color: var(--danger);
 }
 
 .verification {

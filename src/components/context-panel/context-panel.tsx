@@ -1,10 +1,14 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import { useMemo, useState } from 'react';
 
-import type { ToolResult } from '@/contracts/tool-result';
+import { ManualLocationForm } from '@/components/map/manual-location-form';
+import type { Location } from '@/contracts/location';
 import { LocationList } from '@/components/map/location-list';
+import { filterLocations } from '@/components/map/location-search';
 import { SourceList } from '@/components/sources/source-list';
+import type { ToolResult } from '@/contracts/tool-result';
 
 const LeafletMap = dynamic(
   () =>
@@ -26,6 +30,29 @@ export function ContextPanel({
   selectedLocationId,
   onSelectLocation,
 }: ContextPanelProps) {
+  const [manualLocations, setManualLocations] = useState<Location[]>([]);
+  const [isAddFormOpen, setIsAddFormOpen] = useState(false);
+  const [locationQuery, setLocationQuery] = useState('');
+  const locations = useMemo(() => {
+    const uniqueLocations = new Map<string, Location>();
+
+    for (const location of [...(result?.locations ?? []), ...manualLocations]) {
+      uniqueLocations.set(location.id, location);
+    }
+
+    return [...uniqueLocations.values()];
+  }, [manualLocations, result]);
+  const filteredLocations = useMemo(
+    () => filterLocations(locations, locationQuery),
+    [locations, locationQuery],
+  );
+
+  function addManualLocation(location: Location) {
+    setManualLocations(current => [...current, location]);
+    onSelectLocation(location.id);
+    setIsAddFormOpen(false);
+  }
+
   return (
     <aside className="context-panel" aria-label="Answer context">
       <div className="panel-heading">
@@ -50,9 +77,9 @@ export function ContextPanel({
           <h3 id="map-heading">Map</h3>
           <span className="muted-label">OpenStreetMap</span>
         </div>
-        {result ? (
+        {filteredLocations.length > 0 || locations.length === 0 ? (
           <LeafletMap
-            locations={result.locations}
+            locations={filteredLocations}
             selectedLocationId={selectedLocationId}
             onSelectLocation={onSelectLocation}
           />
@@ -61,17 +88,63 @@ export function ContextPanel({
         )}
       </section>
 
+      <section aria-labelledby="add-location-heading">
+        <div className="section-title-row">
+          <h3 id="add-location-heading">Map tools</h3>
+          <button
+            className="secondary-button add-location-button"
+            type="button"
+            onClick={() => setIsAddFormOpen(current => !current)}
+          >
+            {isAddFormOpen ? 'Close' : 'Add location'}
+          </button>
+        </div>
+        {isAddFormOpen ? (
+          <ManualLocationForm
+            onAddLocation={addManualLocation}
+            onCancel={() => setIsAddFormOpen(false)}
+          />
+        ) : null}
+      </section>
+
       <section aria-labelledby="locations-heading">
         <div className="section-title-row">
           <h3 id="locations-heading">Locations</h3>
-          <span className="count-badge">{result?.locations.length ?? 0}</span>
+          <span className="count-badge">
+            {locationQuery.trim()
+              ? `${filteredLocations.length}/${locations.length}`
+              : locations.length}
+          </span>
         </div>
-        {result ? (
+        <div className="location-search">
+          <label className="sr-only" htmlFor="location-search-input">
+            Search locations
+          </label>
+          <input
+            id="location-search-input"
+            type="search"
+            value={locationQuery}
+            placeholder="Search name, category, or address"
+            onChange={event => setLocationQuery(event.target.value)}
+          />
+          {locationQuery ? (
+            <button
+              type="button"
+              aria-label="Clear location search"
+              onClick={() => setLocationQuery('')}
+            >
+              Clear
+            </button>
+          ) : null}
+        </div>
+        {filteredLocations.length > 0 ? (
           <LocationList
-            locations={result.locations}
+            locations={filteredLocations}
             selectedLocationId={selectedLocationId}
             onSelectLocation={onSelectLocation}
           />
+        ) : locations.length > 0 ? (
+          <p className="empty-copy">No locations match your search.</p>
         ) : (
           <p className="empty-copy">Locations from the latest Tool result appear here.</p>
         )}

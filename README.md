@@ -32,6 +32,8 @@ If your shell does not already use Node.js 22, switch to Node.js `22.13.0` or ne
 
 The visible Mock preview and deterministic unit tests use synthetic local data and make no network or model call. They are suitable for development and CI. With an empty chat, open `http://localhost:3000` to see the offline vertical-slice demo immediately; this path does not require an API key.
 
+The map preview keeps one detailed location list in the Context Panel. Search by name, category, description, or address to filter both the list and markers. Select a location there or click its marker to focus the same place on the map. Use **Full screen** for a larger map, or **Add location** to add a temporary user-provided point for the current browser session. Manual points are labelled `needs_review` and are not sent back to the Agent.
+
 Live chat uses Groq through the official AI SDK provider package. The example selects `openai/gpt-oss-20b`, which is available on Groq's Free Plan subject to Groq's current rate limits. Copy the template locally and supply a newly created key; never commit this file, paste the key into chat, or share its contents:
 
 ```bash

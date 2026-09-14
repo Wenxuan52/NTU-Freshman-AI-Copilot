@@ -1,13 +1,12 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useChat } from '@ai-sdk/react';
 
 import curatedLocationData from '../../data/curated/locations/ntu-food-locations.json';
 import type { MainAgentUIMessage } from '@/agent/main-agent';
 import { ChatInput } from '@/components/chat/chat-input';
 import { ContextPanel } from '@/components/context-panel/context-panel';
-import { LocationList } from '@/components/map/location-list';
 import { SourceList } from '@/components/sources/source-list';
 import { ToolResultSchema, type ToolResult } from '@/contracts/tool-result';
 
@@ -47,15 +46,7 @@ function findLatestToolResult(messages: MainAgentUIMessage[]): ToolResult | null
   return null;
 }
 
-function ToolResultCard({
-  result,
-  onSelectLocation,
-  selectedLocationId,
-}: {
-  result: ToolResult;
-  onSelectLocation: (locationId: string) => void;
-  selectedLocationId: string | null;
-}) {
+function ToolResultCard({ result }: { result: ToolResult }) {
   return (
     <div className="tool-result">
       <div className="tool-result-heading">
@@ -67,11 +58,9 @@ function ToolResultCard({
       <p>{result.content}</p>
       <SourceList sources={result.sources} />
       {result.locations.length > 0 ? (
-        <LocationList
-          locations={result.locations}
-          selectedLocationId={selectedLocationId}
-          onSelectLocation={onSelectLocation}
-        />
+        <p className="location-summary">
+          {result.locations.length} locations are listed in the map panel.
+        </p>
       ) : null}
       {result.verification.warnings.map(warning => (
         <p className="warning-copy" key={warning}>
@@ -82,15 +71,7 @@ function ToolResultCard({
   );
 }
 
-function MessageParts({
-  message,
-  onSelectLocation,
-  selectedLocationId,
-}: {
-  message: MainAgentUIMessage;
-  onSelectLocation: (locationId: string) => void;
-  selectedLocationId: string | null;
-}) {
+function MessageParts({ message }: { message: MainAgentUIMessage }) {
   return message.parts.map((part, index) => {
     if (part.type === 'text') {
       return <p key={index}>{part.text}</p>;
@@ -124,8 +105,6 @@ function MessageParts({
           <ToolResultCard
             key={index}
             result={result.data}
-            selectedLocationId={selectedLocationId}
-            onSelectLocation={onSelectLocation}
           />
         ) : (
           <p className="error-copy" key={index}>
@@ -142,22 +121,9 @@ function MessageParts({
 export default function Home() {
   const { messages, sendMessage, status, stop, error } =
     useChat<MainAgentUIMessage>();
-  const [selectedLocationId, setSelectedLocationId] = useState<string | null>(
-    null,
-  );
+  const [selectedLocationId, setSelectedLocationId] = useState<string | null>(null);
   const latestResult = useMemo(() => findLatestToolResult(messages), [messages]);
   const contextResult = latestResult ?? (messages.length === 0 ? DEMO_RESULT : null);
-
-  useEffect(() => {
-    if (
-      selectedLocationId &&
-      !contextResult?.locations.some(
-        location => location.id === selectedLocationId,
-      )
-    ) {
-      setSelectedLocationId(null);
-    }
-  }, [contextResult, selectedLocationId]);
 
   return (
     <main className="app-shell">
@@ -183,11 +149,7 @@ export default function Home() {
                 <article className="message assistant-message">
                   <span className="message-label">Copilot</span>
                   <p>I’ll use the Mock NTU Info Tool and show its evidence status.</p>
-                  <ToolResultCard
-                    result={DEMO_RESULT}
-                    selectedLocationId={selectedLocationId}
-                    onSelectLocation={setSelectedLocationId}
-                  />
+                  <ToolResultCard result={DEMO_RESULT} />
                 </article>
               </div>
             ) : (
@@ -199,11 +161,7 @@ export default function Home() {
                   <span className="message-label">
                     {message.role === 'user' ? 'You' : 'Copilot'}
                   </span>
-                  <MessageParts
-                    message={message}
-                    selectedLocationId={selectedLocationId}
-                    onSelectLocation={setSelectedLocationId}
-                  />
+                  <MessageParts message={message} />
                 </article>
               ))
             )}
