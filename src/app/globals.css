@@ -485,6 +485,7 @@ a {
 }
 
 .drawer-stage {
+  position: relative;
   min-height: 0;
   flex: 1;
   overflow-x: hidden;
@@ -494,7 +495,19 @@ a {
 
 .drawer-view {
   min-height: 100%;
+}
+
+.drawer-view.active {
+  position: relative;
   animation: drawer-view-in 300ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.drawer-view.inactive {
+  position: absolute;
+  inset: 0;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .drawer-plan {

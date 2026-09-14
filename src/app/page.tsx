@@ -406,6 +406,7 @@ export default function Home() {
   useEffect(() => {
     if (
       selectedLocationId &&
+      !selectedLocationId.startsWith('manual-') &&
       !contextResult?.locations.some(
         location => location.id === selectedLocationId,
       )
@@ -621,35 +622,39 @@ export default function Home() {
         </header>
 
         <div className="drawer-stage">
-          {activePanel === 'plan' ? (
-            <section className="drawer-view drawer-plan" role="tabpanel">
-              <div className="drawer-intro">
-                <span className="eyebrow">Personalize locally</span>
-                <h2>Shape your first month.</h2>
-                <p>
-                  Choose only what matters now. Your checklist will return to
-                  the chat, with sources and map links attached.
-                </p>
-              </div>
-              <PlanLiteStarter
-                disabled={status === 'submitted' || status === 'streaming'}
-                onGenerate={profile => {
-                  setActivePanel(null);
-                  return sendMessage({ text: formatProfileRequest(profile) });
-                }}
-              />
-            </section>
-          ) : null}
+          <section
+            className={`drawer-view drawer-plan ${activePanel === 'plan' ? 'active' : 'inactive'}`}
+            role="tabpanel"
+            aria-hidden={activePanel !== 'plan'}
+          >
+            <div className="drawer-intro">
+              <span className="eyebrow">Personalize locally</span>
+              <h2>Shape your first month.</h2>
+              <p>
+                Choose only what matters now. Your checklist will return to
+                the chat, with sources and map links attached.
+              </p>
+            </div>
+            <PlanLiteStarter
+              disabled={status === 'submitted' || status === 'streaming'}
+              onGenerate={profile => {
+                setActivePanel(null);
+                return sendMessage({ text: formatProfileRequest(profile) });
+              }}
+            />
+          </section>
 
-          {activePanel === 'context' ? (
-            <section className="drawer-view drawer-context" role="tabpanel">
-              <ContextPanel
-                result={contextResult}
-                selectedLocationId={selectedLocationId}
-                onSelectLocation={selectLocation}
-              />
-            </section>
-          ) : null}
+          <section
+            className={`drawer-view drawer-context ${activePanel === 'context' ? 'active' : 'inactive'}`}
+            role="tabpanel"
+            aria-hidden={activePanel !== 'context'}
+          >
+            <ContextPanel
+              result={contextResult}
+              selectedLocationId={selectedLocationId}
+              onSelectLocation={selectLocation}
+            />
+          </section>
         </div>
       </aside>
 

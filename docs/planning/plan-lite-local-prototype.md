@@ -1,16 +1,17 @@
-# Plan Lite local prototype decision record
+# Plan Lite / Personalized Map decision record
 
-This is a local decision record for an unpushed prototype. A GitHub Module Task
-Issue must replace it before the work is proposed for review.
+This repository copy summarizes the decisions recorded in Module Task
+[Issue #7](https://github.com/Wenxuan52/NTU-Freshman-AI-Copilot/issues/7)
+and the implementation prepared for review.
 
 ## 1. Task identity
 
 - Direction: optional Plan Lite / Personalized Roadmap with map-linked tasks
 - Core or optional: optional, post-MVP exploration
-- Primary owner: local prototype owner
-- Collaborators: System Integration review required before any remote PR
-- Task Issue: intentionally not created while the prototype remains local
-- Planned branch: `feature/plan-lite-local`
+- Primary owner: `@QihangCao`
+- Collaborators: System Integration review requested for shared wiring
+- Task Issue: #7
+- Planned branch: `feature/plan-lite-personalized-map`
 
 ## 2. Outcome and boundary
 
@@ -96,13 +97,18 @@ Automated tests do not call a model or network.
 
 ## 9. Unresolved decisions
 
-- Whether the team calls the feature Personalized Roadmap or Personalized Map;
-  decision owner: product/team owner; blocking condition: before a remote Issue
-  or PR; safe to prototype with the combined label.
-- Whether profiles may be persisted beyond one browser; decision owner:
-  product/team owner; blocked until privacy and account scope are approved.
+None for this minimum delivery. The feature name is Plan Lite / Personalized
+Map, and profile plus progress persistence remain browser-local. Accounts and
+3D presentation are explicit future work.
 
 ## 10. Integration handoff
 
-Complete this section only if the prototype is approved for a remote Issue and
-PR. Until then, the branch remains local and has no upstream.
+- Final changed files: Plan Lite Tool, schema, curated templates, tests/evals,
+  typed UI, chat-first drawer, lion-guided tour, and shared integration files.
+- Decision changes: the local prototype was approved for review; Issue #7 is
+  now the source of truth and the feature name is resolved.
+- Known limitations: no live deadlines, account sync, route optimization, 3D
+  map, or official-advice claim.
+- Remaining action: System Integration review and CI verification.
+- Safe rollback: remove the additive registry entry and Plan Lite UI; canonical
+  shared contracts and the existing Food / Location Tool remain unchanged.
