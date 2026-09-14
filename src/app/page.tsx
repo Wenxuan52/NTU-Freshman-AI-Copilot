@@ -19,6 +19,44 @@ import { ToolResultSchema, type ToolResult } from '@/contracts/tool-result';
 
 type UtilityPanel = 'plan' | 'context';
 
+type TourAnchorRect = {
+  bottom: number;
+  height: number;
+  left: number;
+  right: number;
+  top: number;
+  width: number;
+};
+
+const TOUR_STORAGE_KEY = 'ntu-freshman-copilot-tour-v1';
+
+const TOUR_STEPS = [
+  {
+    target: 'chat',
+    placement: 'inside' as const,
+    title: 'Your conversation starts here',
+    copy: 'Answers stay in this main space, with sources and useful campus details attached.',
+  },
+  {
+    target: 'composer',
+    placement: 'above' as const,
+    title: 'Ask one clear question',
+    copy: 'Try orientation, campus services, food, study spaces, or anything you need next.',
+  },
+  {
+    target: 'plan',
+    placement: 'left' as const,
+    title: 'Build a personal Plan Lite',
+    copy: 'Choose a few local preferences and get a source-backed first-month checklist.',
+  },
+  {
+    target: 'context',
+    placement: 'left' as const,
+    title: 'Open the evidence and map',
+    copy: 'Sources, verification notes, and campus locations slide in only when you need them.',
+  },
+] as const;
+
 const DEMO_RESULT: ToolResult = ToolResultSchema.parse({
   content:
     'Offline map preview: these curated NTU food locations demonstrate the structured Location contract. Venue details and opening hours require manual confirmation before acting.',
@@ -188,6 +226,167 @@ function LionAvatar({
   );
 }
 
+function getTourCardPosition(
+  anchor: TourAnchorRect,
+  placement: (typeof TOUR_STEPS)[number]['placement'],
+) {
+  const gap = 18;
+  const edge = 16;
+  const estimatedHeight = 228;
+  const width = Math.min(352, window.innerWidth - edge * 2);
+  const maxLeft = window.innerWidth - width - edge;
+  const maxTop = window.innerHeight - estimatedHeight - edge;
+  const centeredLeft = Math.min(
+    maxLeft,
+    Math.max(edge, anchor.left + (anchor.width - width) / 2),
+  );
+
+  if (placement === 'inside') {
+    return {
+      left: Math.min(maxLeft, Math.max(edge, anchor.left + 28)),
+      top: Math.min(maxTop, Math.max(edge, anchor.top + 28)),
+      width,
+    };
+  }
+
+  if (placement === 'left' && anchor.left - width - gap >= edge) {
+    return {
+      left: anchor.left - width - gap,
+      top: Math.min(
+        maxTop,
+        Math.max(edge, anchor.top + anchor.height / 2 - estimatedHeight / 2),
+      ),
+      width,
+    };
+  }
+
+  const aboveTop = anchor.top - estimatedHeight - gap;
+  if (aboveTop >= edge) {
+    return { left: centeredLeft, top: aboveTop, width };
+  }
+
+  return {
+    left: centeredLeft,
+    top: Math.min(maxTop, anchor.bottom + gap),
+    width,
+  };
+}
+
+function OnboardingTour({
+  onBack,
+  onClose,
+  onNext,
+  step,
+}: {
+  onBack: () => void;
+  onClose: () => void;
+  onNext: () => void;
+  step: number;
+}) {
+  const [anchor, setAnchor] = useState<TourAnchorRect | null>(null);
+  const currentStep = TOUR_STEPS[step];
+
+  useEffect(() => {
+    function updateAnchor() {
+      const element = document.querySelector<HTMLElement>(
+        `[data-tour="${currentStep.target}"]`,
+      );
+
+      if (!element) return;
+      const rect = element.getBoundingClientRect();
+      const padding = 8;
+      setAnchor({
+        top: Math.max(8, rect.top - padding),
+        right: Math.min(window.innerWidth - 8, rect.right + padding),
+        bottom: Math.min(window.innerHeight - 8, rect.bottom + padding),
+        left: Math.max(8, rect.left - padding),
+        width: Math.min(window.innerWidth - 16, rect.width + padding * 2),
+        height: Math.min(window.innerHeight - 16, rect.height + padding * 2),
+      });
+    }
+
+    updateAnchor();
+    window.addEventListener('resize', updateAnchor);
+    return () => window.removeEventListener('resize', updateAnchor);
+  }, [currentStep.target]);
+
+  useEffect(() => {
+    function handleKeyboard(event: KeyboardEvent) {
+      if (event.key === 'Escape') onClose();
+      if (event.key === 'ArrowRight') onNext();
+      if (event.key === 'ArrowLeft' && step > 0) onBack();
+    }
+
+    window.addEventListener('keydown', handleKeyboard);
+    return () => window.removeEventListener('keydown', handleKeyboard);
+  }, [onBack, onClose, onNext, step]);
+
+  if (!anchor) return null;
+  const cardPosition = getTourCardPosition(anchor, currentStep.placement);
+
+  return (
+    <div className="tour-overlay">
+      <div className="tour-shade" aria-hidden="true" />
+      <div
+        className="tour-spotlight"
+        aria-hidden="true"
+        style={{
+          top: anchor.top,
+          left: anchor.left,
+          width: anchor.width,
+          height: anchor.height,
+        }}
+      />
+      <section
+        className="tour-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="tour-title"
+        style={cardPosition}
+      >
+        <button
+          className="tour-skip"
+          type="button"
+          aria-label="Close guide"
+          onClick={onClose}
+        >
+          ×
+        </button>
+        <div className="tour-copy" key={step}>
+          <LionAvatar animated />
+          <div>
+            <span className="eyebrow">Lion guide</span>
+            <h2 id="tour-title">{currentStep.title}</h2>
+            <p>{currentStep.copy}</p>
+          </div>
+        </div>
+        <footer className="tour-footer">
+          <div className="tour-progress" aria-label={`Step ${step + 1} of ${TOUR_STEPS.length}`}>
+            {TOUR_STEPS.map((item, index) => (
+              <i className={index === step ? 'active' : ''} key={item.target} />
+            ))}
+          </div>
+          <div className="tour-actions">
+            {step > 0 ? (
+              <button type="button" onClick={onBack}>
+                Back
+              </button>
+            ) : (
+              <button type="button" onClick={onClose}>
+                Skip
+              </button>
+            )}
+            <button className="tour-next" type="button" onClick={onNext}>
+              {step === TOUR_STEPS.length - 1 ? 'Done' : 'Next'}
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </footer>
+      </section>
+    </div>
+  );
+}
+
 export default function Home() {
   const { messages, sendMessage, status, stop, error } =
     useChat<MainAgentUIMessage>();
@@ -195,6 +394,7 @@ export default function Home() {
     null,
   );
   const [activePanel, setActivePanel] = useState<UtilityPanel | null>(null);
+  const [tourStep, setTourStep] = useState<number | null>(null);
   const latestResult = useMemo(() => findLatestToolResult(messages), [messages]);
   const contextResult = latestResult ?? (messages.length === 0 ? DEMO_RESULT : null);
 
@@ -228,6 +428,31 @@ export default function Home() {
     window.addEventListener('keydown', closeOnEscape);
     return () => window.removeEventListener('keydown', closeOnEscape);
   }, [activePanel]);
+
+  useEffect(() => {
+    if (window.localStorage.getItem(TOUR_STORAGE_KEY) === 'done') return;
+    const timer = window.setTimeout(() => setTourStep(0), 550);
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  function finishTour() {
+    window.localStorage.setItem(TOUR_STORAGE_KEY, 'done');
+    setTourStep(null);
+  }
+
+  function startTour() {
+    setActivePanel(null);
+    setTourStep(0);
+  }
+
+  function advanceTour() {
+    if (tourStep === null) return;
+    if (tourStep === TOUR_STEPS.length - 1) {
+      finishTour();
+      return;
+    }
+    setTourStep(tourStep + 1);
+  }
 
   return (
     <main className={`app-shell${activePanel ? ' drawer-open' : ''}`}>
@@ -269,7 +494,7 @@ export default function Home() {
 
       <div className="workspace">
         <section className="chat-panel" aria-label="Chat">
-          <div className="chat-scroll" aria-live="polite">
+          <div className="chat-scroll" aria-live="polite" data-tour="chat">
             {messages.length === 0 ? (
               <div className="chat-empty-state">
                 <div className="empty-mascot-stage">
@@ -323,6 +548,7 @@ export default function Home() {
             className={activePanel === 'plan' ? 'active' : ''}
             type="button"
             aria-pressed={activePanel === 'plan'}
+            data-tour="plan"
             onClick={() => setActivePanel('plan')}
           >
             <span aria-hidden="true">✓</span>
@@ -332,6 +558,7 @@ export default function Home() {
             className={activePanel === 'context' ? 'active' : ''}
             type="button"
             aria-pressed={activePanel === 'context'}
+            data-tour="context"
             onClick={() => setActivePanel('context')}
           >
             <span aria-hidden="true">⌖</span>
@@ -341,6 +568,10 @@ export default function Home() {
                 {contextResult.sources.length}
               </i>
             ) : null}
+          </button>
+          <button type="button" onClick={startTour}>
+            <span aria-hidden="true">🦁</span>
+            <strong>Guide</strong>
           </button>
         </nav>
       </div>
@@ -421,6 +652,15 @@ export default function Home() {
           ) : null}
         </div>
       </aside>
+
+      {tourStep !== null ? (
+        <OnboardingTour
+          step={tourStep}
+          onBack={() => setTourStep(Math.max(0, tourStep - 1))}
+          onNext={advanceTour}
+          onClose={finishTour}
+        />
+      ) : null}
     </main>
   );
 }

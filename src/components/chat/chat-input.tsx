@@ -21,7 +21,7 @@ export function ChatInput({ status, onSubmit, onStop }: ChatInputProps) {
   }
 
   return (
-    <form className="chat-composer" onSubmit={handleSubmit}>
+    <form className="chat-composer" data-tour="composer" onSubmit={handleSubmit}>
       <div className="composer-heading">
         <label htmlFor="chat-query">Ask about starting at NTU</label>
         <span>Source-aware answers</span>
