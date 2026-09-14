@@ -11,3 +11,15 @@ Tool, Next.js route, and typed UI-part patterns demonstrated in:
 
 The Vercel AI SDK source tree is not copied into this repository. Vercel does
 not maintain or endorse NTU Freshman AI Copilot.
+
+## NTU identity asset
+
+The header displays the unmodified NTU master logo served by NTU's official
+website.
+
+- Asset: `public/branding/ntu-logo.png`
+- Source: <https://www.ntu.edu.sg/ResourcePackages/NTU/assets/images/NTU_Logo.png>
+- Retrieved: 2026-09-14
+- Copyright and trademark: Nanyang Technological University, Singapore
+- Use: identification within this local prototype; no endorsement is implied
+- Review status: confirm permission and redistribution terms before public release
