@@ -1,0 +1,78 @@
+{
+  "sources": [
+    {
+      "id": "ntu-campus-map",
+      "title": "NTU Student Support Campus Map",
+      "url": "https://www3.ntu.edu.sg/isc2/apforms/SAO-StudentSupport-CampusMap.pdf",
+      "publisher": "Nanyang Technological University",
+      "published_at": null,
+      "retrieved_at": "2026-09-14T00:00:00.000Z",
+      "official": true
+    },
+    {
+      "id": "osm-north-spine-food-court",
+      "title": "North Spine Food Court on OpenStreetMap",
+      "url": "https://www.openstreetmap.org/node/3922461048",
+      "publisher": "OpenStreetMap contributors",
+      "published_at": null,
+      "retrieved_at": "2026-09-14T00:00:00.000Z",
+      "official": false
+    },
+    {
+      "id": "osm-crowded-bowl",
+      "title": "The Crowded Bowl on OpenStreetMap",
+      "url": "https://www.openstreetmap.org/node/10687611431",
+      "publisher": "OpenStreetMap contributors",
+      "published_at": null,
+      "retrieved_at": "2026-09-14T00:00:00.000Z",
+      "official": false
+    },
+    {
+      "id": "osm-xuji-by-quad-cafe",
+      "title": "Xuji by Quad Cafe on OpenStreetMap",
+      "url": "https://www.openstreetmap.org/node/12244065476",
+      "publisher": "OpenStreetMap contributors",
+      "published_at": null,
+      "retrieved_at": "2026-09-14T00:00:00.000Z",
+      "official": false
+    }
+  ],
+  "locations": [
+    {
+      "id": "north-spine-food-court",
+      "name": "North Spine Food Court",
+      "category": "Food court",
+      "description": "Food court in North Spine near Lee Wee Nam Library.",
+      "address": "76 Nanyang Drive, Singapore 637331",
+      "latitude": 1.347,
+      "longitude": 103.68007,
+      "opening_hours": null,
+      "source_id": "osm-north-spine-food-court",
+      "coordinate_status": "verified"
+    },
+    {
+      "id": "the-crowded-bowl",
+      "name": "The Crowded Bowl",
+      "category": "Restaurant",
+      "description": "Restaurant on Nanyang Avenue near North Spine.",
+      "address": "50 Nanyang Avenue, Singapore 639798",
+      "latitude": 1.34683,
+      "longitude": 103.68079,
+      "opening_hours": null,
+      "source_id": "osm-crowded-bowl",
+      "coordinate_status": "verified"
+    },
+    {
+      "id": "xuji-by-quad-cafe",
+      "name": "Xuji by Quad Cafe",
+      "category": "Cafe",
+      "description": "Cafe on Nanyang Link near The Quad.",
+      "address": "31 Nanyang Link, Singapore 637718",
+      "latitude": 1.3425,
+      "longitude": 103.68026,
+      "opening_hours": null,
+      "source_id": "osm-xuji-by-quad-cafe",
+      "coordinate_status": "verified"
+    }
+  ]
+}

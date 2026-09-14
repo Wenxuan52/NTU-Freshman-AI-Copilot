@@ -337,7 +337,7 @@ a {
 
 .source-card p,
 .empty-copy,
-.map-placeholder p,
+.map-section p,
 .verification p {
   margin: 0.35rem 0 0;
   color: var(--muted);
@@ -356,6 +356,79 @@ a {
     linear-gradient(#cadde2 1px, transparent 1px),
     linear-gradient(90deg, #cadde2 1px, transparent 1px);
   background-size: 1.5rem 1.5rem;
+}
+
+.leaflet-map-shell {
+  margin-top: 0.75rem;
+  overflow: hidden;
+  border: 1px solid #c7d7df;
+  border-radius: 0.8rem;
+  background: #e8f1f3;
+}
+
+.leaflet-map {
+  height: 18rem;
+  width: 100%;
+}
+
+.leaflet-map .leaflet-control-attribution {
+  font-size: 0.65rem;
+}
+
+.map-attribution-note {
+  padding: 0 0.65rem 0.65rem;
+  font-size: 0.72rem !important;
+}
+
+.location-list {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.location-card {
+  display: grid;
+  width: 100%;
+  gap: 0.2rem;
+  padding: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.7rem;
+  color: var(--navy-950);
+  background: white;
+  text-align: left;
+  cursor: pointer;
+}
+
+.location-card:hover,
+.location-card.selected {
+  border-color: var(--blue-600);
+  background: #eef8fa;
+}
+
+.location-card-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.location-card-heading span,
+.location-card > span:not(.location-card-heading) {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.map-popup-button {
+  display: block;
+  margin-top: 0.5rem;
+  padding: 0.35rem 0.5rem;
+  border: 0;
+  border-radius: 0.4rem;
+  color: white;
+  background: var(--blue-600);
+  cursor: pointer;
 }
 
 .map-pin {
