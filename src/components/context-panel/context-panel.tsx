@@ -1,7 +1,31 @@
+'use client';
+
+import dynamic from 'next/dynamic';
+
 import type { ToolResult } from '@/contracts/tool-result';
+import { LocationList } from '@/components/map/location-list';
 import { SourceList } from '@/components/sources/source-list';
 
-export function ContextPanel({ result }: { result: ToolResult | null }) {
+const LeafletMap = dynamic(
+  () =>
+    import('@/components/map/leaflet-map').then(module => module.LeafletMap),
+  {
+    ssr: false,
+    loading: () => <p className="empty-copy">Loading map…</p>,
+  },
+);
+
+type ContextPanelProps = {
+  result: ToolResult | null;
+  selectedLocationId: string | null;
+  onSelectLocation: (locationId: string) => void;
+};
+
+export function ContextPanel({
+  result,
+  selectedLocationId,
+  onSelectLocation,
+}: ContextPanelProps) {
   return (
     <aside className="context-panel" aria-label="Answer context">
       <div className="panel-heading">
@@ -21,18 +45,36 @@ export function ContextPanel({ result }: { result: ToolResult | null }) {
         )}
       </section>
 
-      <section className="map-placeholder" aria-labelledby="map-heading">
+      <section className="map-section" aria-labelledby="map-heading">
         <div className="section-title-row">
           <h3 id="map-heading">Map</h3>
-          <span className="muted-label">MVP placeholder</span>
+          <span className="muted-label">OpenStreetMap</span>
         </div>
-        <div className="map-grid" aria-hidden="true">
-          <span className="map-pin" />
+        {result ? (
+          <LeafletMap
+            locations={result.locations}
+            selectedLocationId={selectedLocationId}
+            onSelectLocation={onSelectLocation}
+          />
+        ) : (
+          <p className="empty-copy">Locations from the latest Tool result appear here.</p>
+        )}
+      </section>
+
+      <section aria-labelledby="locations-heading">
+        <div className="section-title-row">
+          <h3 id="locations-heading">Locations</h3>
+          <span className="count-badge">{result?.locations.length ?? 0}</span>
         </div>
-        <p>
-          Structured locations will appear here. The Mock Tool intentionally
-          returns an empty locations array.
-        </p>
+        {result ? (
+          <LocationList
+            locations={result.locations}
+            selectedLocationId={selectedLocationId}
+            onSelectLocation={onSelectLocation}
+          />
+        ) : (
+          <p className="empty-copy">Locations from the latest Tool result appear here.</p>
+        )}
       </section>
 
       {result ? (

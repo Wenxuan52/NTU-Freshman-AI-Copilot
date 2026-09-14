@@ -1,41 +1,43 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useChat } from '@ai-sdk/react';
 
+import curatedLocationData from '../../data/curated/locations/ntu-food-locations.json';
 import type { MainAgentUIMessage } from '@/agent/main-agent';
 import { ChatInput } from '@/components/chat/chat-input';
 import { ContextPanel } from '@/components/context-panel/context-panel';
+import { LocationList } from '@/components/map/location-list';
 import { SourceList } from '@/components/sources/source-list';
 import { ToolResultSchema, type ToolResult } from '@/contracts/tool-result';
 
-const DEMO_RESULT: ToolResult = {
+const DEMO_RESULT: ToolResult = ToolResultSchema.parse({
   content:
-    'Synthetic mock guidance: review the official NTU website for your onboarding requirements. This preview is not verified NTU policy.',
-  sources: [
-    {
-      id: 'ntu-homepage-preview',
-      title: 'NTU Singapore official website (illustrative source)',
-      url: 'https://www.ntu.edu.sg/',
-      publisher: 'Nanyang Technological University',
-      published_at: null,
-      retrieved_at: '2026-09-11T00:00:00.000Z',
-      official: true,
-    },
-  ],
-  locations: [],
+    'Offline map preview: these curated NTU food locations demonstrate the structured Location contract. Venue details and opening hours require manual confirmation before acting.',
+  sources: curatedLocationData.sources,
+  locations: curatedLocationData.locations,
   verification: {
     status: 'needs_review',
-    checks: ['source_present', 'url_valid', 'official_domain_checked'],
-    warnings: ['Synthetic preview content has not been manually verified.'],
-    reviewed_at: '2026-09-11T00:00:00.000Z',
+    checks: [
+      'source_present',
+      'url_valid',
+      'coordinate_source_present',
+      'coordinates_verified_against_curated_records',
+    ],
+    warnings: [
+      'Venue details and opening hours have not been manually verified against current NTU listings.',
+    ],
+    reviewed_at: '2026-09-14T00:00:00.000Z',
   },
-};
+});
 
 function findLatestToolResult(messages: MainAgentUIMessage[]): ToolResult | null {
   for (const message of messages.toReversed()) {
     for (const part of message.parts.toReversed()) {
-      if (part.type === 'tool-mockNtuInfo' && part.state === 'output-available') {
+      if (
+        (part.type === 'tool-mockNtuInfo' || part.type === 'tool-foodLocation') &&
+        part.state === 'output-available'
+      ) {
         const parsed = ToolResultSchema.safeParse(part.output);
         if (parsed.success) return parsed.data;
       }
@@ -45,7 +47,15 @@ function findLatestToolResult(messages: MainAgentUIMessage[]): ToolResult | null
   return null;
 }
 
-function ToolResultCard({ result }: { result: ToolResult }) {
+function ToolResultCard({
+  result,
+  onSelectLocation,
+  selectedLocationId,
+}: {
+  result: ToolResult;
+  onSelectLocation: (locationId: string) => void;
+  selectedLocationId: string | null;
+}) {
   return (
     <div className="tool-result">
       <div className="tool-result-heading">
@@ -56,6 +66,13 @@ function ToolResultCard({ result }: { result: ToolResult }) {
       </div>
       <p>{result.content}</p>
       <SourceList sources={result.sources} />
+      {result.locations.length > 0 ? (
+        <LocationList
+          locations={result.locations}
+          selectedLocationId={selectedLocationId}
+          onSelectLocation={onSelectLocation}
+        />
+      ) : null}
       {result.verification.warnings.map(warning => (
         <p className="warning-copy" key={warning}>
           {warning}
@@ -65,7 +82,15 @@ function ToolResultCard({ result }: { result: ToolResult }) {
   );
 }
 
-function MessageParts({ message }: { message: MainAgentUIMessage }) {
+function MessageParts({
+  message,
+  onSelectLocation,
+  selectedLocationId,
+}: {
+  message: MainAgentUIMessage;
+  onSelectLocation: (locationId: string) => void;
+  selectedLocationId: string | null;
+}) {
   return message.parts.map((part, index) => {
     if (part.type === 'text') {
       return <p key={index}>{part.text}</p>;
@@ -75,12 +100,12 @@ function MessageParts({ message }: { message: MainAgentUIMessage }) {
       return <div className="step-divider" key={index} />;
     }
 
-    if (part.type === 'tool-mockNtuInfo') {
+    if (part.type === 'tool-mockNtuInfo' || part.type === 'tool-foodLocation') {
       if (part.state === 'input-streaming' || part.state === 'input-available') {
         return (
           <div className="tool-pending" key={index}>
             <span className="spinner" aria-hidden="true" />
-            Running Mock NTU Info Tool…
+            Running NTU information Tool…
           </div>
         );
       }
@@ -88,7 +113,7 @@ function MessageParts({ message }: { message: MainAgentUIMessage }) {
       if (part.state === 'output-error') {
         return (
           <p className="error-copy" key={index}>
-            The Mock Tool could not return a result: {part.errorText}
+            The information Tool could not return a result: {part.errorText}
           </p>
         );
       }
@@ -96,7 +121,12 @@ function MessageParts({ message }: { message: MainAgentUIMessage }) {
       if (part.state === 'output-available') {
         const result = ToolResultSchema.safeParse(part.output);
         return result.success ? (
-          <ToolResultCard key={index} result={result.data} />
+          <ToolResultCard
+            key={index}
+            result={result.data}
+            selectedLocationId={selectedLocationId}
+            onSelectLocation={onSelectLocation}
+          />
         ) : (
           <p className="error-copy" key={index}>
             The Tool returned an invalid result.
@@ -112,8 +142,22 @@ function MessageParts({ message }: { message: MainAgentUIMessage }) {
 export default function Home() {
   const { messages, sendMessage, status, stop, error } =
     useChat<MainAgentUIMessage>();
+  const [selectedLocationId, setSelectedLocationId] = useState<string | null>(
+    null,
+  );
   const latestResult = useMemo(() => findLatestToolResult(messages), [messages]);
   const contextResult = latestResult ?? (messages.length === 0 ? DEMO_RESULT : null);
+
+  useEffect(() => {
+    if (
+      selectedLocationId &&
+      !contextResult?.locations.some(
+        location => location.id === selectedLocationId,
+      )
+    ) {
+      setSelectedLocationId(null);
+    }
+  }, [contextResult, selectedLocationId]);
 
   return (
     <main className="app-shell">
@@ -123,7 +167,7 @@ export default function Home() {
           <span className="eyebrow">Ask · verify · orient</span>
           <h1>NTU Freshman AI Copilot</h1>
         </div>
-        <span className="mock-badge">Mock data only</span>
+        <span className="mock-badge">Curated preview</span>
       </header>
 
       <div className="workspace">
@@ -139,7 +183,11 @@ export default function Home() {
                 <article className="message assistant-message">
                   <span className="message-label">Copilot</span>
                   <p>I’ll use the Mock NTU Info Tool and show its evidence status.</p>
-                  <ToolResultCard result={DEMO_RESULT} />
+                  <ToolResultCard
+                    result={DEMO_RESULT}
+                    selectedLocationId={selectedLocationId}
+                    onSelectLocation={setSelectedLocationId}
+                  />
                 </article>
               </div>
             ) : (
@@ -151,7 +199,11 @@ export default function Home() {
                   <span className="message-label">
                     {message.role === 'user' ? 'You' : 'Copilot'}
                   </span>
-                  <MessageParts message={message} />
+                  <MessageParts
+                    message={message}
+                    selectedLocationId={selectedLocationId}
+                    onSelectLocation={setSelectedLocationId}
+                  />
                 </article>
               ))
             )}
@@ -170,7 +222,11 @@ export default function Home() {
           />
         </section>
 
-        <ContextPanel result={contextResult} />
+        <ContextPanel
+          result={contextResult}
+          selectedLocationId={selectedLocationId}
+          onSelectLocation={setSelectedLocationId}
+        />
       </div>
     </main>
   );

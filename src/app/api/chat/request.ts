@@ -40,6 +40,7 @@ export type ChatRequestValidation =
 const allowedAssistantPartTypes = new Set([
   'text',
   'reasoning',
+  'tool-foodLocation',
   'step-start',
   'tool-mockNtuInfo',
 ]);

@@ -1,10 +1,10 @@
 # NTU Freshman AI Copilot
 
-NTU Freshman AI Copilot is a source-aware assistant for new NTU students. This repository currently provides a safe Mock vertical slice:
+NTU Freshman AI Copilot is a source-aware assistant for new NTU students. This repository currently provides a safe Mock vertical slice and a basic curated Food / Location flow:
 
 ```text
-Chat UI → Next.js API Route → Main ToolLoopAgent → Mock Tool
-        → deterministic Trust Validator → Answer + Sources + Verification
+Chat UI → Next.js API Route → Main ToolLoopAgent → Food / Location Tool
+        → deterministic Trust Validator → Answer + Sources + Locations + Map
 ```
 
 It is an engineering scaffold, not yet an authoritative NTU information service. Synthetic Mock content is always labelled `needs_review`.
@@ -17,7 +17,7 @@ Required versions are Node.js 22.13 or newer (CI uses Node.js 22) and pnpm 11.23
 
 ```bash
 git clone https://github.com/Wenxuan52/NTU-Freshman-AI-Copilot.git
-cd NTU-Freshment-Copilot
+cd NTU-Freshman-AI-Copilot
 corepack enable
 corepack prepare pnpm@11.23.0 --activate
 pnpm install --frozen-lockfile
@@ -26,9 +26,11 @@ pnpm dev
 
 Open `http://localhost:3000`. The page and static Mock preview work without credentials. Sending a live Ask request enters the Main Agent path and therefore needs server model configuration.
 
+If your shell does not already use Node.js 22, switch to Node.js `22.13.0` or newer before running the commands above. The repository declares the required Node and pnpm versions in `package.json`.
+
 ## Mock mode and real-model mode
 
-The visible Mock preview and deterministic unit tests use synthetic local data and make no network or model call. They are suitable for development and CI.
+The visible Mock preview and deterministic unit tests use synthetic local data and make no network or model call. They are suitable for development and CI. With an empty chat, open `http://localhost:3000` to see the offline vertical-slice demo immediately; this path does not require an API key.
 
 Live chat uses Groq through the official AI SDK provider package. The example selects `openai/gpt-oss-20b`, which is available on Groq's Free Plan subject to Groq's current rate limits. Copy the template locally and supply a newly created key; never commit this file, paste the key into chat, or share its contents:
 
@@ -118,9 +120,9 @@ Future team members are added individually by the project owner with **Write** p
 
 ## Current limitations
 
-- Only a synthetic offline Mock Tool is implemented; all six real domain directions still need their minimum delivery.
+- The onboarding flow remains synthetic; the Food / Location Tool is currently limited to a small curated dataset and does not perform live retrieval.
 - No real NTU retrieval, RAG, authentication, roadmap, Plan Lite, or 3D Map exists.
-- The Context Panel map is a placeholder and Mock locations are intentionally empty; the Leaflet 2D map remains Food / Location work.
+- The Food / Location Tool now provides a small curated dataset and a Leaflet + OpenStreetMap preview; venue details and opening hours still require manual verification.
 - Loading and error behavior exist, but broader cancel and partial-result UX remains an Integration deliverable.
 - Live Ask requests use Groq and require a valid local `GROQ_API_KEY`; Free Plan limits and model availability are controlled by Groq.
 - Credential distribution, the primary target-user definition, and three final Demo paths remain team decisions.
