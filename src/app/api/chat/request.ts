@@ -41,6 +41,7 @@ const allowedAssistantPartTypes = new Set([
   'text',
   'reasoning',
   'tool-foodLocation',
+  'tool-planLite',
   'step-start',
   'tool-mockNtuInfo',
 ]);

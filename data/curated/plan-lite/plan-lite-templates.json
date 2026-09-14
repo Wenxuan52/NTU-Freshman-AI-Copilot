@@ -1,0 +1,205 @@
+{
+  "sources": [
+    {
+      "id": "ntu-undergraduate-freshmen-guide",
+      "title": "Freshmen Guide",
+      "url": "https://www.ntu.edu.sg/admissions/undergraduate/freshmen/freshmen-info/freshmen-guide",
+      "publisher": "Nanyang Technological University",
+      "published_at": null,
+      "retrieved_at": "2026-09-14T00:00:00.000Z",
+      "official": true
+    },
+    {
+      "id": "ntu-graduate-freshmen-guide",
+      "title": "Incoming Graduate Student Guide",
+      "url": "https://www.ntu.edu.sg/admissions/graduate/gfreshmenguide/incoming-graduate-student-guide",
+      "publisher": "Nanyang Technological University",
+      "published_at": null,
+      "retrieved_at": "2026-09-14T00:00:00.000Z",
+      "official": true
+    },
+    {
+      "id": "ntu-students-pass",
+      "title": "Student's Pass",
+      "url": "https://www.ntu.edu.sg/life-at-ntu/student-life/student-services/onestop/student%27s-pass",
+      "publisher": "Nanyang Technological University",
+      "published_at": null,
+      "retrieved_at": "2026-09-14T00:00:00.000Z",
+      "official": true
+    },
+    {
+      "id": "ntu-undergraduate-housing",
+      "title": "Undergraduate Housing Application Schedule",
+      "url": "https://www.ntu.edu.sg/life-at-ntu/accommodation/undergraduate-housing/application",
+      "publisher": "Nanyang Technological University",
+      "published_at": null,
+      "retrieved_at": "2026-09-14T00:00:00.000Z",
+      "official": true
+    },
+    {
+      "id": "ntu-student-life",
+      "title": "Student Life",
+      "url": "https://www.ntu.edu.sg/life-at-ntu/student-life",
+      "publisher": "Nanyang Technological University",
+      "published_at": null,
+      "retrieved_at": "2026-09-14T00:00:00.000Z",
+      "official": true
+    },
+    {
+      "id": "ntu-library",
+      "title": "NTU Library",
+      "url": "https://www.ntu.edu.sg/education/libraries",
+      "publisher": "Nanyang Technological University",
+      "published_at": null,
+      "retrieved_at": "2026-09-14T00:00:00.000Z",
+      "official": true
+    },
+    {
+      "id": "ntu-student-wellbeing",
+      "title": "Student Wellbeing Services",
+      "url": "https://www.ntu.edu.sg/life-at-ntu/student-life/campus-life-and-wellbeing/ntu-wellbeing/student-wellbeing-services",
+      "publisher": "Nanyang Technological University",
+      "published_at": null,
+      "retrieved_at": "2026-09-14T00:00:00.000Z",
+      "official": true
+    }
+  ],
+  "tasks": [
+    {
+      "id": "review-undergraduate-guide",
+      "title": "Review your undergraduate Freshmen Guide",
+      "description": "Use the current guide to identify the administrative steps and deadlines that apply to your intake.",
+      "phase": "before_arrival",
+      "priority": "high",
+      "reason": "Your profile identifies you as an incoming undergraduate.",
+      "source_ids": ["ntu-undergraduate-freshmen-guide"],
+      "location_ids": [],
+      "applies_to": { "student_levels": ["undergraduate"] }
+    },
+    {
+      "id": "review-graduate-guide",
+      "title": "Review your incoming graduate student guide",
+      "description": "Check the current graduate guide and your programme communications for applicable enrolment steps.",
+      "phase": "before_arrival",
+      "priority": "high",
+      "reason": "Your profile identifies you as an incoming postgraduate.",
+      "source_ids": ["ntu-graduate-freshmen-guide"],
+      "location_ids": [],
+      "applies_to": { "student_levels": ["postgraduate"] }
+    },
+    {
+      "id": "review-students-pass",
+      "title": "Review Student's Pass requirements",
+      "description": "Confirm the current NTU and ICA steps that apply to your immigration status before making plans.",
+      "phase": "before_arrival",
+      "priority": "high",
+      "reason": "Your profile identifies you as an international student.",
+      "source_ids": ["ntu-students-pass"],
+      "location_ids": [],
+      "applies_to": { "residencies": ["international"] }
+    },
+    {
+      "id": "review-undergraduate-housing",
+      "title": "Review hall application and check-in instructions",
+      "description": "Confirm the current housing schedule, required confirmations, and check-in instructions for your assigned hall.",
+      "phase": "before_arrival",
+      "priority": "high",
+      "reason": "You selected on-campus housing as an undergraduate.",
+      "source_ids": ["ntu-undergraduate-housing"],
+      "location_ids": [],
+      "applies_to": {
+        "student_levels": ["undergraduate"],
+        "housing": ["on_campus"]
+      }
+    },
+    {
+      "id": "confirm-graduate-accommodation",
+      "title": "Confirm your accommodation instructions",
+      "description": "Review the accommodation guidance that applies to your graduate offer and keep the relevant confirmation available.",
+      "phase": "before_arrival",
+      "priority": "high",
+      "reason": "You selected on-campus housing as a postgraduate.",
+      "source_ids": ["ntu-graduate-freshmen-guide"],
+      "location_ids": [],
+      "applies_to": {
+        "student_levels": ["postgraduate"],
+        "housing": ["on_campus"]
+      }
+    },
+    {
+      "id": "plan-campus-arrival",
+      "title": "Plan your regular journey to campus",
+      "description": "Use current NTU transport and campus information to choose a realistic arrival route and backup option.",
+      "phase": "before_arrival",
+      "priority": "medium",
+      "reason": "You selected off-campus or undecided housing.",
+      "source_ids": ["ntu-student-life"],
+      "location_ids": [],
+      "applies_to": { "housing": ["off_campus", "undecided"] }
+    },
+    {
+      "id": "find-student-support",
+      "title": "Save the main student support entry points",
+      "description": "Review the student services available for academic, housing, financial, and campus-life questions.",
+      "phase": "first_week",
+      "priority": "high",
+      "reason": "Every new student should know where to ask for reliable help.",
+      "source_ids": ["ntu-student-life"],
+      "location_ids": [],
+      "applies_to": {}
+    },
+    {
+      "id": "explore-campus-food",
+      "title": "Save a few campus food options",
+      "description": "Compare the curated North Spine and nearby options on the map; verify current opening details before visiting.",
+      "phase": "first_week",
+      "priority": "medium",
+      "reason": "You selected food as an interest.",
+      "source_ids": [
+        "ntu-campus-map",
+        "osm-north-spine-food-court",
+        "osm-crowded-bowl",
+        "osm-xuji-by-quad-cafe"
+      ],
+      "location_ids": [
+        "north-spine-food-court",
+        "the-crowded-bowl",
+        "xuji-by-quad-cafe"
+      ],
+      "applies_to": { "interests": ["food"] }
+    },
+    {
+      "id": "explore-library",
+      "title": "Explore the library essentials",
+      "description": "Review the library's current student guides, services, and ways to get help.",
+      "phase": "first_week",
+      "priority": "medium",
+      "reason": "You selected study resources as an interest.",
+      "source_ids": ["ntu-library"],
+      "location_ids": [],
+      "applies_to": { "interests": ["study"] }
+    },
+    {
+      "id": "save-wellbeing-support",
+      "title": "Save wellbeing support information",
+      "description": "Know where to find current professional and community wellbeing support before you need it.",
+      "phase": "first_month",
+      "priority": "medium",
+      "reason": "Keeping trusted support information nearby is useful for every new student.",
+      "source_ids": ["ntu-student-wellbeing"],
+      "location_ids": [],
+      "applies_to": {}
+    },
+    {
+      "id": "explore-campus-life",
+      "title": "Explore one campus-life opportunity",
+      "description": "Review current clubs, activities, or community opportunities and choose one that feels manageable.",
+      "phase": "first_month",
+      "priority": "low",
+      "reason": "You selected campus life as an interest.",
+      "source_ids": ["ntu-student-life"],
+      "location_ids": [],
+      "applies_to": { "interests": ["campus_life"] }
+    }
+  ]
+}

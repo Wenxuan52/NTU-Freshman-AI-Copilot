@@ -676,6 +676,351 @@ a {
   box-shadow: none;
 }
 
+.plan-starter {
+  margin: 0 0 1.35rem;
+  padding: 1rem;
+  border: 1px solid rgba(24, 28, 98, 0.14);
+  border-left: 0.3rem solid var(--ntu-red);
+  border-radius: 1rem;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(215, 20, 64, 0.08), transparent 13rem),
+    linear-gradient(135deg, #f8f8fc, #f1f3fa);
+}
+
+.plan-starter-heading,
+.plan-starter-footer,
+.plan-result-heading,
+.plan-task-title,
+.plan-phase-heading,
+.plan-task-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.plan-starter-heading h3,
+.plan-result-heading h3,
+.plan-phase-heading h4 {
+  margin: 0.12rem 0 0;
+  color: var(--ntu-blue);
+}
+
+.plan-starter-heading h3 {
+  font-size: 1.08rem;
+}
+
+.plan-lite-badge,
+.plan-progress,
+.plan-phase-heading span,
+.plan-task-title > span {
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.plan-lite-badge {
+  padding: 0.32rem 0.58rem;
+  color: #08623c;
+  background: #ddf6e8;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.6rem;
+  margin-top: 0.85rem;
+}
+
+.profile-grid label,
+.interest-picker legend {
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.profile-grid select {
+  width: 100%;
+  margin-top: 0.28rem;
+  padding: 0.56rem 1.7rem 0.56rem 0.62rem;
+  border: 1px solid #cfd2df;
+  border-radius: 0.65rem;
+  color: var(--ink);
+  background: white;
+  font: inherit;
+  font-size: 0.78rem;
+}
+
+.profile-grid select:focus {
+  border-color: var(--ntu-blue-bright);
+  outline: 0;
+  box-shadow: 0 0 0 0.18rem rgba(0, 84, 166, 0.1);
+}
+
+.interest-picker {
+  margin: 0.85rem 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.interest-picker > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.35rem;
+}
+
+.interest-picker button,
+.plan-task-actions button {
+  border: 1px solid #d1d4e1;
+  border-radius: 999px;
+  color: var(--ntu-blue);
+  background: white;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.interest-picker button {
+  padding: 0.38rem 0.62rem;
+  font-size: 0.72rem;
+}
+
+.interest-picker button.selected {
+  border-color: rgba(215, 20, 64, 0.24);
+  color: var(--ntu-red-dark);
+  background: var(--soft-red);
+}
+
+.plan-starter-footer {
+  align-items: flex-end;
+  margin-top: 0.9rem;
+}
+
+.plan-starter-footer p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.plan-starter-footer > button {
+  flex: 0 0 auto;
+  padding: 0.6rem 0.78rem;
+  border: 0;
+  border-radius: 0.65rem;
+  color: white;
+  background: linear-gradient(135deg, var(--ntu-blue), #303891);
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(24, 28, 98, 0.18);
+}
+
+.plan-starter-footer > button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.plan-lite-result {
+  margin-top: 0.8rem;
+  padding: 1rem;
+  border: 1px solid rgba(24, 28, 98, 0.13);
+  border-radius: 0.95rem;
+  background: #fff;
+}
+
+.plan-result-heading {
+  align-items: flex-start;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.plan-result-heading h3 {
+  font-size: 1.22rem;
+}
+
+.plan-progress {
+  padding: 0.35rem 0.6rem;
+  color: var(--ntu-blue);
+  background: var(--soft-blue);
+}
+
+.plan-summary {
+  margin: 0.8rem 0 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.plan-phase {
+  margin-top: 1rem;
+}
+
+.plan-phase-heading {
+  padding-bottom: 0.45rem;
+}
+
+.plan-phase-heading h4 {
+  font-size: 0.86rem;
+}
+
+.plan-phase-heading span {
+  display: grid;
+  width: 1.5rem;
+  height: 1.5rem;
+  place-items: center;
+  color: var(--ntu-blue);
+  background: #e7e8f1;
+}
+
+.plan-phase > ul {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.plan-task {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.7rem;
+  padding: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: #fafafe;
+  transition: opacity 150ms ease, border-color 150ms ease;
+}
+
+.plan-task.completed {
+  opacity: 0.62;
+}
+
+.plan-task.completed .plan-task-title strong {
+  text-decoration: line-through;
+}
+
+.plan-task-check {
+  padding-top: 0.08rem;
+  cursor: pointer;
+}
+
+.plan-task-check input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.plan-task-check span {
+  display: grid;
+  width: 1.25rem;
+  height: 1.25rem;
+  place-items: center;
+  border: 2px solid #b9bdce;
+  border-radius: 0.38rem;
+  background: white;
+}
+
+.plan-task-check input:checked + span {
+  border-color: var(--ntu-red);
+  background: var(--ntu-red);
+}
+
+.plan-task-check input:checked + span::after {
+  width: 0.28rem;
+  height: 0.52rem;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  content: "";
+  transform: translateY(-0.06rem) rotate(45deg);
+}
+
+.plan-task-check input:focus-visible + span {
+  outline: 3px solid rgba(0, 84, 166, 0.2);
+  outline-offset: 2px;
+}
+
+.plan-task-title {
+  align-items: flex-start;
+}
+
+.plan-task-title strong {
+  color: var(--ink);
+  font-size: 0.86rem;
+}
+
+.plan-task-title > span {
+  padding: 0.2rem 0.42rem;
+  text-transform: capitalize;
+}
+
+.priority-high {
+  color: var(--ntu-red-dark);
+  background: var(--soft-red);
+}
+
+.priority-medium {
+  color: #7b5700;
+  background: var(--warning-bg);
+}
+
+.priority-low {
+  color: var(--ntu-blue);
+  background: var(--soft-blue);
+}
+
+.plan-task-body > p {
+  margin: 0.32rem 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.plan-task-body .plan-reason {
+  color: #7b7f90;
+  font-size: 0.72rem;
+  font-style: italic;
+}
+
+.plan-task-actions {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin-top: 0.48rem;
+}
+
+.plan-task-actions a,
+.plan-task-actions button {
+  padding: 0.28rem 0.48rem;
+  font-size: 0.68rem;
+}
+
+.plan-task-actions a {
+  border-radius: 999px;
+  color: var(--ntu-blue-bright);
+  background: #edf5fc;
+  text-decoration: none;
+}
+
+.plan-task-actions button {
+  border-color: rgba(215, 20, 64, 0.2);
+  color: var(--ntu-red-dark);
+  background: var(--soft-red);
+}
+
+.plan-warning {
+  margin-top: 1rem;
+  padding: 0.7rem 0.8rem;
+  border-radius: 0.7rem;
+}
+
+.plan-warning strong {
+  text-transform: capitalize;
+}
+
+.plan-warning p {
+  margin: 0.22rem 0 0;
+  color: inherit;
+  font-size: 0.75rem;
+}
+
 .context-panel {
   min-width: 0;
   padding: clamp(1.25rem, 2.3vw, 2rem);
@@ -1094,6 +1439,8 @@ a {
   .demo-thread,
   .assistant-message,
   .tool-result,
+  .plan-starter,
+  .plan-lite-result,
   .source-list,
   .source-card {
     min-width: 0;
@@ -1156,6 +1503,31 @@ a {
     padding: 0.85rem;
   }
 
+  .plan-starter {
+    padding: 0.85rem;
+  }
+
+  .profile-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .plan-starter-footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .plan-starter-footer > button {
+    width: 100%;
+  }
+
+  .plan-lite-result {
+    padding: 0.8rem;
+  }
+
+  .plan-task {
+    padding: 0.65rem;
+  }
+
   .chat-composer {
     padding: 0.85rem 1rem 1rem;
   }
@@ -1186,6 +1558,10 @@ a {
 
   .composer-row {
     flex-direction: column;
+  }
+
+  .profile-grid {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .composer-row button {

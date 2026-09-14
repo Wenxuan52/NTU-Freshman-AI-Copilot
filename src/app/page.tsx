@@ -8,7 +8,13 @@ import curatedLocationData from '../../data/curated/locations/ntu-food-locations
 import type { MainAgentUIMessage } from '@/agent/main-agent';
 import { ChatInput } from '@/components/chat/chat-input';
 import { ContextPanel } from '@/components/context-panel/context-panel';
+import { PlanLiteCard } from '@/components/plan/plan-lite-card';
+import {
+  formatProfileRequest,
+  PlanLiteStarter,
+} from '@/components/plan/plan-lite-starter';
 import { SourceList } from '@/components/sources/source-list';
+import { PlanLiteResultSchema } from '@/contracts/plan-lite';
 import { ToolResultSchema, type ToolResult } from '@/contracts/tool-result';
 
 const DEMO_RESULT: ToolResult = ToolResultSchema.parse({
@@ -35,7 +41,9 @@ function findLatestToolResult(messages: MainAgentUIMessage[]): ToolResult | null
   for (const message of messages.toReversed()) {
     for (const part of message.parts.toReversed()) {
       if (
-        (part.type === 'tool-mockNtuInfo' || part.type === 'tool-foodLocation') &&
+        (part.type === 'tool-mockNtuInfo' ||
+          part.type === 'tool-foodLocation' ||
+          part.type === 'tool-planLite') &&
         part.state === 'output-available'
       ) {
         const parsed = ToolResultSchema.safeParse(part.output);
@@ -72,7 +80,13 @@ function ToolResultCard({ result }: { result: ToolResult }) {
   );
 }
 
-function MessageParts({ message }: { message: MainAgentUIMessage }) {
+function MessageParts({
+  message,
+  onSelectLocation,
+}: {
+  message: MainAgentUIMessage;
+  onSelectLocation: (locationId: string) => void;
+}) {
   return message.parts.map((part, index) => {
     if (part.type === 'text') {
       return <p key={index}>{part.text}</p>;
@@ -80,6 +94,40 @@ function MessageParts({ message }: { message: MainAgentUIMessage }) {
 
     if (part.type === 'step-start') {
       return <div className="step-divider" key={index} />;
+    }
+
+    if (part.type === 'tool-planLite') {
+      if (part.state === 'input-streaming' || part.state === 'input-available') {
+        return (
+          <div className="tool-pending" key={index}>
+            <span className="spinner" aria-hidden="true" />
+            Building your source-backed Plan Lite…
+          </div>
+        );
+      }
+
+      if (part.state === 'output-error') {
+        return (
+          <p className="error-copy" key={index}>
+            Plan Lite could not be generated: {part.errorText}
+          </p>
+        );
+      }
+
+      if (part.state === 'output-available') {
+        const result = PlanLiteResultSchema.safeParse(part.output);
+        return result.success ? (
+          <PlanLiteCard
+            key={index}
+            result={result.data}
+            onSelectLocation={onSelectLocation}
+          />
+        ) : (
+          <p className="error-copy" key={index}>
+            Plan Lite returned an invalid result.
+          </p>
+        );
+      }
     }
 
     if (part.type === 'tool-mockNtuInfo' || part.type === 'tool-foodLocation') {
@@ -196,6 +244,13 @@ export default function Home() {
               </div>
             </div>
 
+            <PlanLiteStarter
+              disabled={status === 'submitted' || status === 'streaming'}
+              onGenerate={profile =>
+                sendMessage({ text: formatProfileRequest(profile) })
+              }
+            />
+
             {messages.length === 0 ? (
               <div className="demo-thread">
                 <div className="thread-divider">
@@ -242,6 +297,7 @@ export default function Home() {
                       </span>
                       <MessageParts
                         message={message}
+                        onSelectLocation={setSelectedLocationId}
                       />
                     </article>
                   </div>
