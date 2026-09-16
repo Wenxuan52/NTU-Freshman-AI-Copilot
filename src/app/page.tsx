@@ -6,6 +6,8 @@ import { useChat } from '@ai-sdk/react';
 
 import curatedLocationData from '../../data/curated/locations/ntu-food-locations.json';
 import type { MainAgentUIMessage } from '@/agent/main-agent';
+import { ACRONYM_COUNT } from '@/components/acronyms/acronym-directory';
+import { AcronymsPanel } from '@/components/acronyms/acronyms-panel';
 import { ChatInput } from '@/components/chat/chat-input';
 import { ContextPanel } from '@/components/context-panel/context-panel';
 import { PlanLiteCard } from '@/components/plan/plan-lite-card';
@@ -17,7 +19,7 @@ import { SourceList } from '@/components/sources/source-list';
 import { PlanLiteResultSchema } from '@/contracts/plan-lite';
 import { ToolResultSchema, type ToolResult } from '@/contracts/tool-result';
 
-type UtilityPanel = 'plan' | 'context';
+type UtilityPanel = 'plan' | 'context' | 'acronyms';
 
 type TourAnchorRect = {
   bottom: number;
@@ -570,6 +572,16 @@ export default function Home() {
               </i>
             ) : null}
           </button>
+          <button
+            className={activePanel === 'acronyms' ? 'active' : ''}
+            type="button"
+            aria-pressed={activePanel === 'acronyms'}
+            onClick={() => setActivePanel('acronyms')}
+          >
+            <span className="acronym-switcher-icon" aria-hidden="true">Aa</span>
+            <strong>Acronyms</strong>
+            <i aria-label={`${ACRONYM_COUNT} reviewed acronyms`}>{ACRONYM_COUNT}</i>
+          </button>
           <button type="button" onClick={startTour}>
             <span aria-hidden="true">🦁</span>
             <strong>Guide</strong>
@@ -587,7 +599,7 @@ export default function Home() {
 
       <aside
         className={`utility-drawer${activePanel ? ' open' : ''}`}
-        aria-label="Plan and context drawer"
+        aria-label="Plan, evidence and acronyms drawer"
         aria-hidden={!activePanel}
       >
         <header className="drawer-header">
@@ -609,6 +621,15 @@ export default function Home() {
               onClick={() => setActivePanel('context')}
             >
               Evidence &amp; Map
+            </button>
+            <button
+              className={activePanel === 'acronyms' ? 'active' : ''}
+              type="button"
+              role="tab"
+              aria-selected={activePanel === 'acronyms'}
+              onClick={() => setActivePanel('acronyms')}
+            >
+              Acronyms
             </button>
           </div>
           <button
@@ -654,6 +675,14 @@ export default function Home() {
               selectedLocationId={selectedLocationId}
               onSelectLocation={selectLocation}
             />
+          </section>
+
+          <section
+            className={`drawer-view drawer-acronyms ${activePanel === 'acronyms' ? 'active' : 'inactive'}`}
+            role="tabpanel"
+            aria-hidden={activePanel !== 'acronyms'}
+          >
+            <AcronymsPanel />
           </section>
         </div>
       </aside>

@@ -352,6 +352,13 @@ a {
   line-height: 1;
 }
 
+.view-switcher .acronym-switcher-icon {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: -0.08em;
+}
+
 .view-switcher button strong {
   font-size: 0.72rem;
 }
@@ -551,6 +558,301 @@ a {
   background:
     radial-gradient(circle at 100% 0%, rgba(215, 20, 64, 0.07), transparent 18rem),
     linear-gradient(180deg, #f9f9fc, #f0f1f6);
+}
+
+.drawer-acronyms {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(215, 20, 64, 0.09), transparent 18rem),
+    radial-gradient(circle at 0% 35%, rgba(0, 84, 166, 0.07), transparent 20rem),
+    linear-gradient(180deg, #fafafd, #f0f1f6);
+}
+
+.acronyms-panel {
+  min-height: 100%;
+  padding: 1.4rem;
+}
+
+.acronyms-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+}
+
+.acronyms-heading h2 {
+  margin: 0;
+  color: var(--ntu-blue);
+  font-size: clamp(1.65rem, 4vw, 2.35rem);
+  letter-spacing: -0.055em;
+  line-height: 1.02;
+}
+
+.acronym-monogram {
+  display: grid;
+  width: 4rem;
+  height: 4rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid rgba(24, 28, 98, 0.1);
+  border-radius: 1rem 1rem 1rem 0.28rem;
+  color: white;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.18), transparent 55%),
+    var(--ntu-blue);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.1em;
+  box-shadow: 0 14px 30px rgba(24, 28, 98, 0.18);
+}
+
+.acronym-search-shell {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 1.3rem;
+  padding: 0.72rem 0.8rem;
+  border: 1px solid rgba(24, 28, 98, 0.15);
+  border-radius: 0.9rem;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 14px 32px rgba(24, 28, 98, 0.07);
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.acronym-search-shell:focus-within {
+  border-color: rgba(0, 84, 166, 0.5);
+  box-shadow: 0 0 0 0.2rem rgba(0, 84, 166, 0.1);
+}
+
+.acronym-search-mark {
+  color: var(--ntu-red);
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.acronym-search-shell input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  color: var(--ink);
+  background: transparent;
+  font-size: 0.9rem;
+}
+
+.acronym-search-shell input::placeholder {
+  color: #8b90a1;
+}
+
+.acronym-search-shell button {
+  padding: 0.3rem 0.45rem;
+  border: 0;
+  border-radius: 0.45rem;
+  color: var(--ntu-red-dark);
+  background: var(--soft-red);
+  font-size: 0.7rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.acronym-search-hint {
+  color: #777d8f;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.acronym-results-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: 0.72rem 0 0;
+  color: #717789;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.acronym-list {
+  display: grid;
+  gap: 0.62rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: acronym-card;
+}
+
+.acronym-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(6.2rem, 0.36fr) minmax(0, 1fr);
+  gap: 1rem;
+  overflow: hidden;
+  padding: 0.95rem 2.55rem 0.95rem 1rem;
+  border: 1px solid rgba(24, 28, 98, 0.12);
+  border-radius: 0.9rem;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 10px 25px rgba(24, 28, 98, 0.055);
+  counter-increment: acronym-card;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.acronym-card::after {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.8rem;
+  color: rgba(24, 28, 98, 0.14);
+  content: counter(acronym-card, decimal-leading-zero);
+  font-size: 0.67rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.acronym-card:hover {
+  border-color: rgba(215, 20, 64, 0.25);
+  box-shadow: 0 16px 34px rgba(24, 28, 98, 0.09);
+  transform: translateY(-0.1rem);
+}
+
+.acronym-code {
+  display: flex;
+  min-width: 0;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.38rem;
+  padding-right: 0.85rem;
+  border-right: 1px solid var(--line);
+}
+
+.acronym-code strong {
+  color: var(--ntu-red-dark);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: clamp(1.05rem, 3.2vw, 1.35rem);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  overflow-wrap: anywhere;
+}
+
+.acronym-code span {
+  padding: 0.2rem 0.38rem;
+  border-radius: 999px;
+  color: var(--ntu-blue);
+  background: var(--soft-blue);
+  font-size: 0.6rem;
+  font-weight: 800;
+}
+
+.acronym-definition {
+  min-width: 0;
+}
+
+.acronym-definition h3 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 0.9rem;
+  line-height: 1.3;
+}
+
+.acronym-definition a,
+.acronym-source-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--ntu-blue-bright);
+  text-decoration: none;
+}
+
+.acronym-definition a {
+  margin-top: 0.42rem;
+  font-size: 0.68rem;
+}
+
+.acronym-definition a:hover,
+.acronym-source-links a:hover {
+  text-decoration: underline;
+}
+
+.acronym-empty {
+  margin-top: 1rem;
+  padding: 2rem 1.2rem;
+  border: 1px dashed rgba(24, 28, 98, 0.22);
+  border-radius: 1rem;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.acronym-empty > span {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--ntu-red-dark);
+  background: var(--soft-red);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.acronym-empty h3 {
+  margin: 0.75rem 0 0;
+  color: var(--ntu-blue);
+  font-size: 1rem;
+}
+
+.acronym-empty p {
+  max-width: 25rem;
+  margin: 0.4rem auto 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.acronym-empty button {
+  margin-top: 0.9rem;
+  padding: 0.55rem 0.75rem;
+  border: 0;
+  border-radius: 0.6rem;
+  color: white;
+  background: var(--ntu-blue);
+  font-size: 0.72rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.acronym-provenance {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding: 0.9rem;
+  border: 1px solid rgba(24, 28, 98, 0.12);
+  border-radius: 0.85rem;
+  background: rgba(240, 243, 251, 0.82);
+}
+
+.acronym-provenance p {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.acronym-source-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.acronym-source-links a {
+  padding: 0.32rem 0.48rem;
+  border-radius: 999px;
+  background: white;
+  font-size: 0.65rem;
 }
 
 @keyframes drawer-view-in {
@@ -1903,6 +2205,7 @@ a {
     right: auto;
     bottom: 8.2rem;
     left: 50%;
+    width: calc(100vw - 1.5rem);
     align-items: center;
     flex-direction: row;
     padding: 0.3rem;
@@ -1915,10 +2218,24 @@ a {
   }
 
   .view-switcher button {
-    min-height: 2.65rem;
-    padding: 0.52rem 0.65rem;
+    min-width: 0;
+    min-height: 3rem;
+    flex: 1 1 0;
+    padding: 0.52rem 0.45rem;
     border: 0;
     box-shadow: none;
+  }
+
+  .view-switcher button > span,
+  .view-switcher button > i {
+    display: none;
+  }
+
+  .view-switcher button strong {
+    font-size: 0.62rem;
+    line-height: 1.12;
+    text-align: center;
+    white-space: normal;
   }
 
   .view-switcher button:hover,
@@ -1939,6 +2256,10 @@ a {
   }
 
   .drawer-context .context-panel {
+    padding: 1rem;
+  }
+
+  .acronyms-panel {
     padding: 1rem;
   }
 
@@ -2042,6 +2363,12 @@ a {
   .context-panel {
     padding: 1.25rem 1rem 1.5rem;
   }
+
+  .acronym-card {
+    grid-template-columns: minmax(5.5rem, 0.34fr) minmax(0, 1fr);
+    gap: 0.75rem;
+    padding: 0.85rem 2.15rem 0.85rem 0.85rem;
+  }
 }
 
 @media (max-width: 370px) {
@@ -2062,7 +2389,7 @@ a {
   }
 
   .view-switcher button strong {
-    font-size: 0.66rem;
+    font-size: 0.6rem;
   }
 
   .view-switcher {
@@ -2072,6 +2399,16 @@ a {
   .drawer-tabs button {
     padding: 0.44rem 0.5rem;
     font-size: 0.68rem;
+  }
+
+  .acronym-card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .acronym-code {
+    padding: 0 0 0.65rem;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
   }
 
   .composer-row button {
