@@ -1,0 +1,213 @@
+{
+  "reviewed_at": "2026-09-16T00:00:00.000Z",
+  "sources": [
+    {
+      "id": "ntu-a-z-directory",
+      "title": "NTU A–Z Directory",
+      "url": "https://www.ntu.edu.sg/footer/a-z-directory",
+      "publisher": "Nanyang Technological University",
+      "retrieved_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "ntu-maps",
+      "title": "NTU Maps",
+      "url": "https://maps.ntu.edu.sg/",
+      "publisher": "Nanyang Technological University",
+      "retrieved_at": "2026-09-16T00:00:00.000Z"
+    }
+  ],
+  "acronyms": [
+    {
+      "id": "pace",
+      "acronym": "PACE",
+      "name": "Academy for Professional and Continuing Education",
+      "category": "Academy",
+      "aliases": [],
+      "source_id": "ntu-a-z-directory"
+    },
+    {
+      "id": "ccds",
+      "acronym": "CCDS",
+      "name": "College of Computing and Data Science",
+      "category": "College",
+      "aliases": ["Computing and Data Science"],
+      "source_id": "ntu-a-z-directory"
+    },
+    {
+      "id": "coe",
+      "acronym": "CoE",
+      "name": "College of Engineering",
+      "category": "College",
+      "aliases": ["Engineering"],
+      "source_id": "ntu-a-z-directory"
+    },
+    {
+      "id": "cohass",
+      "acronym": "CoHASS",
+      "name": "College of Humanities, Arts and Social Sciences",
+      "category": "College",
+      "aliases": ["Humanities, Arts and Social Sciences"],
+      "source_id": "ntu-a-z-directory"
+    },
+    {
+      "id": "cos",
+      "acronym": "CoS",
+      "name": "College of Science",
+      "category": "College",
+      "aliases": ["Science"],
+      "source_id": "ntu-a-z-directory"
+    },
+    {
+      "id": "lkcmedicine",
+      "acronym": "LKCMedicine",
+      "name": "Lee Kong Chian School of Medicine",
+      "category": "School",
+      "aliases": ["Lee Kong Chian Medicine"],
+      "source_id": "ntu-a-z-directory"
+    },
+    {
+      "id": "nbs",
+      "acronym": "NBS",
+      "name": "Nanyang Business School",
+      "category": "School",
+      "aliases": ["Business School"],
+      "source_id": "ntu-a-z-directory"
+    },
+    {
+      "id": "nie",
+      "acronym": "NIE",
+      "name": "National Institute of Education",
+      "category": "Institute",
+      "aliases": [],
+      "source_id": "ntu-a-z-directory"
+    },
+    {
+      "id": "rsis",
+      "acronym": "RSIS",
+      "name": "S. Rajaratnam School of International Studies",
+      "category": "School",
+      "aliases": ["Rajaratnam School"],
+      "source_id": "ntu-a-z-directory"
+    },
+    {
+      "id": "adm",
+      "acronym": "ADM",
+      "name": "School of Art, Design and Media",
+      "category": "School",
+      "aliases": ["Art, Design and Media"],
+      "source_id": "ntu-a-z-directory"
+    },
+    {
+      "id": "sbs",
+      "acronym": "SBS",
+      "name": "School of Biological Sciences",
+      "category": "School",
+      "aliases": ["Biological Sciences"],
+      "source_id": "ntu-a-z-directory"
+    },
+    {
+      "id": "cceb",
+      "acronym": "CCEB",
+      "name": "School of Chemistry, Chemical Engineering and Biotechnology",
+      "category": "School",
+      "aliases": ["Chemistry, Chemical Engineering and Biotechnology"],
+      "source_id": "ntu-a-z-directory"
+    },
+    {
+      "id": "cee",
+      "acronym": "CEE",
+      "name": "School of Civil and Environmental Engineering",
+      "category": "School",
+      "aliases": ["Civil and Environmental Engineering"],
+      "source_id": "ntu-a-z-directory"
+    },
+    {
+      "id": "eee",
+      "acronym": "EEE",
+      "name": "School of Electrical and Electronic Engineering",
+      "category": "School",
+      "aliases": ["Electrical and Electronic Engineering"],
+      "source_id": "ntu-a-z-directory"
+    },
+    {
+      "id": "soh",
+      "acronym": "SOH",
+      "name": "School of Humanities",
+      "category": "School",
+      "aliases": ["Humanities"],
+      "source_id": "ntu-a-z-directory"
+    },
+    {
+      "id": "mse",
+      "acronym": "MSE",
+      "name": "School of Materials Science and Engineering",
+      "category": "School",
+      "aliases": ["Materials Science and Engineering"],
+      "source_id": "ntu-a-z-directory"
+    },
+    {
+      "id": "mae",
+      "acronym": "MAE",
+      "name": "School of Mechanical and Aerospace Engineering",
+      "category": "School",
+      "aliases": ["Mechanical and Aerospace Engineering"],
+      "source_id": "ntu-a-z-directory"
+    },
+    {
+      "id": "spms",
+      "acronym": "SPMS",
+      "name": "School of Physical and Mathematical Sciences",
+      "category": "School",
+      "aliases": ["Physical and Mathematical Sciences"],
+      "source_id": "ntu-a-z-directory"
+    },
+    {
+      "id": "sss",
+      "acronym": "SSS",
+      "name": "School of Social Sciences",
+      "category": "School",
+      "aliases": ["Social Sciences"],
+      "source_id": "ntu-a-z-directory"
+    },
+    {
+      "id": "ase",
+      "acronym": "ASE",
+      "name": "The Asian School of the Environment",
+      "category": "School",
+      "aliases": ["Asian School of the Environment"],
+      "source_id": "ntu-a-z-directory"
+    },
+    {
+      "id": "wkwsci",
+      "acronym": "WKWSCI",
+      "name": "Wee Kim Wee School of Communication and Information",
+      "category": "School",
+      "aliases": ["Wee Kim Wee School"],
+      "source_id": "ntu-a-z-directory"
+    },
+    {
+      "id": "north-spine",
+      "acronym": "NS",
+      "name": "North Spine",
+      "category": "Campus place",
+      "aliases": [],
+      "source_id": "ntu-maps"
+    },
+    {
+      "id": "research-support-building",
+      "acronym": "RSB",
+      "name": "Research Support Building",
+      "category": "Campus place",
+      "aliases": [],
+      "source_id": "ntu-maps"
+    },
+    {
+      "id": "student-services-centre",
+      "acronym": "SSC",
+      "name": "Student Services Centre",
+      "category": "Campus place",
+      "aliases": ["Student Services Center"],
+      "source_id": "ntu-maps"
+    }
+  ]
+}
