@@ -977,6 +977,124 @@ a {
   background: #f6f6f9;
 }
 
+.assistant-markdown {
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+.assistant-markdown > :first-child {
+  margin-top: 0.5rem;
+}
+
+.assistant-markdown > :last-child {
+  margin-bottom: 0;
+}
+
+.assistant-markdown h1,
+.assistant-markdown h2,
+.assistant-markdown h3,
+.assistant-markdown h4 {
+  margin: 1rem 0 0.45rem;
+  color: var(--ntu-blue);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.assistant-markdown h1 {
+  font-size: 1.25rem;
+}
+
+.assistant-markdown h2 {
+  font-size: 1.12rem;
+}
+
+.assistant-markdown h3,
+.assistant-markdown h4 {
+  font-size: 1rem;
+}
+
+.assistant-markdown ul,
+.assistant-markdown ol {
+  margin: 0.55rem 0;
+  padding-left: 1.35rem;
+}
+
+.assistant-markdown li + li {
+  margin-top: 0.28rem;
+}
+
+.assistant-markdown a {
+  color: var(--ntu-blue-bright);
+  font-weight: 750;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.16em;
+}
+
+.assistant-markdown blockquote {
+  margin: 0.7rem 0;
+  padding: 0.2rem 0 0.2rem 0.8rem;
+  border-left: 0.22rem solid rgba(24, 28, 98, 0.28);
+  color: var(--muted);
+}
+
+.assistant-markdown code {
+  padding: 0.1rem 0.28rem;
+  border-radius: 0.3rem;
+  background: #e8e9f0;
+  font-size: 0.9em;
+}
+
+.assistant-markdown pre {
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 0.65rem;
+  background: #ececf2;
+}
+
+.assistant-markdown pre code {
+  padding: 0;
+  background: transparent;
+}
+
+.assistant-markdown table {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  margin: 0.75rem 0;
+  overflow-x: auto;
+  border-spacing: 0;
+  border: 1px solid var(--line);
+  border-radius: 0.65rem;
+  background: white;
+}
+
+.assistant-markdown th,
+.assistant-markdown td {
+  min-width: 8rem;
+  padding: 0.55rem 0.65rem;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.assistant-markdown th {
+  color: var(--ntu-blue);
+  background: var(--soft-blue);
+  font-size: 0.78rem;
+}
+
+.assistant-markdown tr:last-child td {
+  border-bottom: 0;
+}
+
+.assistant-markdown th:last-child,
+.assistant-markdown td:last-child {
+  border-right: 0;
+}
+
 .tool-result {
   min-width: 0;
   margin-top: 0.9rem;

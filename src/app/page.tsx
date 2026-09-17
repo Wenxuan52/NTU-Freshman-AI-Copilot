@@ -6,6 +6,7 @@ import { useChat } from '@ai-sdk/react';
 
 import curatedLocationData from '../../data/curated/locations/ntu-food-locations.json';
 import type { MainAgentUIMessage } from '@/agent/main-agent';
+import { AssistantMarkdown } from '@/components/chat/assistant-markdown';
 import { ChatInput } from '@/components/chat/chat-input';
 import { ContextPanel } from '@/components/context-panel/context-panel';
 import { PlanLiteCard } from '@/components/plan/plan-lite-card';
@@ -129,7 +130,11 @@ function MessageParts({
 }) {
   return message.parts.map((part, index) => {
     if (part.type === 'text') {
-      return <p key={index}>{part.text}</p>;
+      return message.role === 'assistant' ? (
+        <AssistantMarkdown key={index} source={part.text} />
+      ) : (
+        <p key={index}>{part.text}</p>
+      );
     }
 
     if (part.type === 'step-start') {
@@ -414,10 +419,6 @@ export default function Home() {
       setSelectedLocationId(null);
     }
   }, [contextResult, selectedLocationId]);
-
-  useEffect(() => {
-    if (latestResult) setActivePanel('context');
-  }, [latestResult]);
 
   useEffect(() => {
     if (!activePanel) return;
