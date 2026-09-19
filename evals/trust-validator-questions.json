@@ -1,0 +1,23 @@
+[
+  {
+    "id": "trust-onboarding-official-source",
+    "flow": "freshman_onboarding",
+    "question": "What official NTU source supports this onboarding step?",
+    "expected_status": "verified",
+    "evidence_rule": "At least one current exact-domain NTU source and no unresolved warning"
+  },
+  {
+    "id": "trust-location-coordinate-evidence",
+    "flow": "campus_location",
+    "question": "Where is this campus service located?",
+    "expected_status": "needs_review",
+    "evidence_rule": "Exclude any location whose source is missing or whose coordinates are not verified"
+  },
+  {
+    "id": "trust-latest-information-freshness",
+    "flow": "latest_information",
+    "question": "What is the latest official update for new students?",
+    "expected_status": "stale",
+    "evidence_rule": "Use the Tool-configured freshness window and do not silently present expired evidence as current"
+  }
+]
