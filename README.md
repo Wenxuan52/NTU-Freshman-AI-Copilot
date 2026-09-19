@@ -10,6 +10,8 @@ Chat UI → Next.js API Route → Main ToolLoopAgent → Food / Location Tool
 
 It is an engineering scaffold, not yet an authoritative NTU information service. Synthetic Mock content is always labelled `needs_review`.
 
+The deterministic trust gate validates every factual Tool result before it reaches the Main Agent. It normalizes NTU official-domain labels, applies Tool-configured freshness windows, surfaces explicit source conflicts, excludes locations without verified coordinate evidence, and derives `verified`, `needs_review`, `stale`, `conflict`, or `unavailable`. Malformed payloads and unsafe URL protocols are rejected; missing evidence is never silently promoted. A model may flag additional risk but cannot upgrade a result to `verified`.
+
 This is a [public GitHub repository](https://github.com/Wenxuan52/NTU-Freshman-AI-Copilot) released under the [MIT License](LICENSE).
 
 ## Five-minute start
@@ -110,7 +112,7 @@ docs/             Decisions, planning, and collaboration guides
 1. Work in the direction's owned `src/tools/<module>/` and `data/curated/<module>/` directories.
 2. Define a narrow Zod input schema and explicit failure behavior.
 3. Return canonical `ToolResult`, `Source`, `Location`, and `Verification` types from `src/contracts/`; do not redefine them.
-4. Pass factual output through `validateToolResult` and use traceable official sources.
+4. Pass factual output through `validateToolResult`, use traceable official sources, configure a freshness window where recency matters, and pass any detected source conflicts explicitly.
 5. Add unit and trust-boundary tests plus at least two representative eval questions.
 6. After protocol tests pass, coordinate the high-conflict `src/tools/registry.ts` edit with System Integration.
 7. Add typed UI rendering only when the Tool introduces a new structured part.
