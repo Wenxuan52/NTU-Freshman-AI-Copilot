@@ -11,7 +11,7 @@ describe('acronym directory', () => {
   it('accepts the curated snapshot and keeps every entry traceable', () => {
     const sourceIds = new Set(acronymDirectory.sources.map(source => source.id));
 
-    expect(acronymDirectory.acronyms).toHaveLength(24);
+    expect(acronymDirectory.acronyms).toHaveLength(25);
     expect(
       acronymDirectory.acronyms.every(entry => sourceIds.has(entry.source_id)),
     ).toBe(true);
@@ -30,6 +30,19 @@ describe('acronym directory', () => {
       acronym: 'MSE',
       name: 'School of Materials Science and Engineering',
     });
+  });
+
+  it('resolves N2FC to its reviewed official entry', () => {
+    const result = filterAcronyms(acronymDirectory.acronyms, 'n2fc')[0];
+    const source = acronymDirectory.sources.find(
+      candidate => candidate.id === result?.source_id,
+    );
+
+    expect(result).toMatchObject({
+      acronym: 'N2FC',
+      name: 'Nanyang NanoFabrication Centre',
+    });
+    expect(source?.url).toBe('https://www.ntu.edu.sg/n2fc');
   });
 
   it('matches full names, reviewed aliases, and categories', () => {

@@ -1,5 +1,5 @@
 {
-  "reviewed_at": "2026-09-16T00:00:00.000Z",
+  "reviewed_at": "2026-09-21T00:00:00.000Z",
   "sources": [
     {
       "id": "ntu-a-z-directory",
@@ -14,6 +14,13 @@
       "url": "https://maps.ntu.edu.sg/",
       "publisher": "Nanyang Technological University",
       "retrieved_at": "2026-09-16T00:00:00.000Z"
+    },
+    {
+      "id": "ntu-n2fc",
+      "title": "Nanyang NanoFabrication Centre (N2FC)",
+      "url": "https://www.ntu.edu.sg/n2fc",
+      "publisher": "Nanyang Technological University",
+      "retrieved_at": "2026-09-21T00:00:00.000Z"
     }
   ],
   "acronyms": [
@@ -200,6 +207,14 @@
       "category": "Campus place",
       "aliases": [],
       "source_id": "ntu-maps"
+    },
+    {
+      "id": "n2fc",
+      "acronym": "N2FC",
+      "name": "Nanyang NanoFabrication Centre",
+      "category": "Research centre",
+      "aliases": ["NanoFabrication Centre"],
+      "source_id": "ntu-n2fc"
     },
     {
       "id": "student-services-centre",
