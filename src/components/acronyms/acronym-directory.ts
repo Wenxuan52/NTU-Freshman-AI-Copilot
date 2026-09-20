@@ -22,14 +22,7 @@ export const AcronymEntrySchema = z.object({
   id: z.string().min(1),
   acronym: z.string().min(2).max(20),
   name: z.string().min(2),
-  category: z.enum([
-    'Academy',
-    'Campus place',
-    'College',
-    'Institute',
-    'Research centre',
-    'School',
-  ]),
+  category: z.enum(['Academy', 'Campus place', 'College', 'Institute', 'School']),
   aliases: z.array(z.string().min(2)),
   source_id: z.string().min(1),
 });

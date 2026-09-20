@@ -7,12 +7,9 @@ zero-token acronym lookup in the web interface.
   [NTU A–Z Directory](https://www.ntu.edu.sg/footer/a-z-directory).
 - Campus-place shorthand comes from visible labels in
   [NTU Maps](https://maps.ntu.edu.sg/).
-- N2FC is confirmed by the official
-  [Nanyang NanoFabrication Centre](https://www.ntu.edu.sg/n2fc) page.
-- Latest retrieval and review date: 2026-09-21.
-- Scope: school, college, institute, academy, research-centre, and selected
-  campus-place labels whose abbreviation is explicitly shown by one of the
-  sources above.
+- Retrieval and review date: 2026-09-16.
+- Scope: school, college, institute, academy, and selected campus-place labels
+  whose abbreviation is explicitly shown by one of the sources above.
 - Reuse: the file records short factual names and identifiers only; it does not
   copy page descriptions, map tiles, coordinates, or other bulk site content.
 - Freshness: this is a reviewed snapshot, not a live feed. The interface links
