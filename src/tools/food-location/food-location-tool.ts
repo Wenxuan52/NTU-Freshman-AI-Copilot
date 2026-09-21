@@ -42,7 +42,7 @@ export async function executeFoodLocation(input: unknown): Promise<ToolResult> {
     },
   };
 
-  const validation = validateToolResult(candidate);
+  const validation = validateToolResult(candidate, { now });
 
   if (!validation.accepted) {
     throw new Error('Food Location Tool output failed deterministic trust validation.');
