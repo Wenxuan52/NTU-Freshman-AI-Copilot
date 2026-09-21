@@ -136,13 +136,16 @@ export function buildPlanLite(
     },
   });
 
-  const trustValidation = validateToolResult(candidate);
+  const trustValidation = validateToolResult(candidate, { now: reviewedAt });
 
   if (!trustValidation.accepted) {
     throw new Error('Plan Lite output failed deterministic trust validation.');
   }
 
-  return candidate;
+  return PlanLiteResultSchema.parse({
+    ...candidate,
+    ...trustValidation.result,
+  });
 }
 
 export async function executePlanLite(input: unknown): Promise<PlanLiteResult> {
